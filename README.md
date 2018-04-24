@@ -1,13 +1,13 @@
-# ClearSettlementSystem
-============
+ClearSettlementSystem
+=====================
 
 ### Divide the work
 
 - xjx 文档
-- zzh 交易对账、清结算
+- zzh dubbo、缓存
 - lzx 测试
-- zzx 支付宝
-- wzf 微信
+- zzx 清分、对账文件处理
+- wzf 充值、提现、交易
 
 ### Requirement
 
