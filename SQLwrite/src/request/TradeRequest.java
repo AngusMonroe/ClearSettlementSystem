@@ -21,6 +21,6 @@ public final class TradeRequest extends Request
 	 */
 	public TradeRequest(int requestID, int userID, int sellerID, float amount, boolean state, Date timestamp) throws RequestException
 	{
-		super(requestID, userID, sellerID, amount, state, timestamp, null, "trade");
+		super(requestID, userID, sellerID, amount, state, timestamp, null, RecordType.TRADE);
 	}
 }

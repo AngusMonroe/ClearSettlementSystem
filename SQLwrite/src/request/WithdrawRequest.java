@@ -21,6 +21,6 @@ public final class WithdrawRequest extends Request
 	 */
 	public WithdrawRequest(int requestID, int userID, float amount, boolean state, Date timestamp, String method) throws RequestException
 	{
-		super(requestID, userID, 0, amount, state, timestamp, method, "withdraw");
+		super(requestID, userID, 0, amount, state, timestamp, method, RecordType.WITHDRAW);
 	}
 }
