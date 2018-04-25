@@ -13,21 +13,23 @@ import request.TradeRequest;
  */
 public class SQLConnection
 {
-	private String url;
-	private String user;
-	private String password;
+	private String table;
+	private Connection connection;
+	private PreparedStatement pstmt;
 	
 	/**
 	 * 数据库连接类构造函数
 	 * @param url URL
 	 * @param user 用户名
 	 * @param password 密码
+	 * @param database 数据库
+	 * @param table 表
 	 */
-	public SQLConnection(String url, String user, String password) throws Exception
+	public SQLConnection(String url, String user, String password, String table) throws Exception
 	{
-		this.url = url;
-		this.user = user;
-		this.password = password;
+		this.table = table;
+
+		connection = DriverManager.getConnection(url,user,password);
 	}
 	
 	/**
@@ -37,9 +39,8 @@ public class SQLConnection
 	 */
 	public void insert(RechargeRequest r) throws Exception
 	{
-		Connection conn = DriverManager.getConnection(url,user,password);
-		String sql = "INSERT INTO record values(?,?,?,?,?,?,?,?)";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
+		String sql = "INSERT INTO " + table + " VALUES(?,?,?,?,?,?,?,?)";
+		pstmt = connection.prepareStatement(sql);
 		pstmt.setString(1, r.getRequestID() + "");
 		pstmt.setString(2, "recharge");
 		pstmt.setString(3, r.getUserID() + "");
@@ -53,14 +54,13 @@ public class SQLConnection
 	
 	/**
 	 * 向数据库插入提现账单
-	 * @param r 充值请求
+	 * @param r 提现请求
 	 * @throws Exception
 	 */
 	public void insert(WithdrawRequest r) throws Exception
 	{
-		Connection conn = DriverManager.getConnection(url,user,password);
-		String sql = "INSERT INTO record values(?,?,?,?,?,?,?,?)";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
+		String sql = "INSERT INTO " + table + " VALUES(?,?,?,?,?,?,?,?)";
+		pstmt = connection.prepareStatement(sql);
 		pstmt.setString(1, r.getRequestID() + "");
 		pstmt.setString(2, "withdraw");
 		pstmt.setString(3, r.getUserID() + "");
@@ -74,14 +74,13 @@ public class SQLConnection
 	
 	/**
 	 * 向数据库插入交易账单
-	 * @param r 充值请求
+	 * @param r 交易请求
 	 * @throws Exception
 	 */
 	public void insert(TradeRequest r) throws Exception
 	{
-		Connection conn = DriverManager.getConnection(url,user,password);
-		String sql = "INSERT INTO record values(?,?,?,?,?,?,?,?)";
-		PreparedStatement pstmt = conn.prepareStatement(sql);
+		String sql = "INSERT INTO " + table + " VALUES(?,?,?,?,?,?,?,?)";
+		pstmt = connection.prepareStatement(sql);
 		pstmt.setString(1, r.getRequestID() + "");
 		pstmt.setString(2, "trade");
 		pstmt.setString(3, r.getUserID() + "");
@@ -91,13 +90,5 @@ public class SQLConnection
 		pstmt.setString(7, null);
 		pstmt.setString(8, (r.getState() == true ? 1 : 0) + "");
 		pstmt.execute();
-	}
-	
-	/**
-	 * 加载JDBC驱动程序
-	 */
-	public static void loadDriver() throws Exception
-	{
-		Class.forName("com.mysql.jdbc.Driver");
 	}
 }

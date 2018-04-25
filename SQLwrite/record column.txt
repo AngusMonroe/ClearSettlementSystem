@@ -1,9 +1,0 @@
-1. request_id	int(11)		Primary Key, Not Null, Unique
-2. record_type	varchar(45)	Not Null			value is "recharge" or "withdraw" or "trade"
-3. user_id	int(11)		Not Null
-4. seller_id	int(11)						Null if record_type is "recharge" or "withdraw"
-
-5. amount	float		Not Null
-6. time_stamp	date		Not Null
-7. method	varchar(45)					Null if record_type is "trade"
-8. state	tinyint(4)	Not Null			value is 0 or 1
