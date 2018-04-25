@@ -21,6 +21,6 @@ public final class RechargeRequest extends Request
 	 */
 	public RechargeRequest(int requestID, int userID, float amount, boolean state, Date timestamp, String method) throws RequestException
 	{
-		super(requestID, userID, 0, amount, state, timestamp, method, "recharge");
+		super(requestID, userID, 0, amount, state, timestamp, method, RecordType.RECHARGE);
 	}
 }

@@ -6,6 +6,8 @@ import exception.RequestException;
 
 public class Request
 {
+	public enum RecordType { RECHARGE, WITHDRAW, TRADE }
+	
 	protected int requestID;
 	protected int userID;
 	protected int sellerID;
@@ -13,7 +15,7 @@ public class Request
 	protected boolean state;
 	protected Date timestamp;
 	protected String method;
-	protected String recordType;
+	protected RecordType recordType;
 
 	/**
 	 * 请求类构造函数
@@ -27,7 +29,7 @@ public class Request
 	 * @param recordType 类型:"recharge"或"withdraw"或"trade"
 	 * @throws RequestException
 	 */
-	protected Request(int requestID, int userID, int sellerID, float amount, boolean state, Date timestamp, String method, String recordType) throws RequestException
+	protected Request(int requestID, int userID, int sellerID, float amount, boolean state, Date timestamp, String method, RecordType recordType) throws RequestException
 	{
 		this.requestID = requestID;
 		this.userID = userID;
@@ -38,11 +40,11 @@ public class Request
 		this.method = method;
 		this.recordType = recordType;
 		
-		if (recordType == "recharge" || recordType == "withdraw")
+		if (recordType == RecordType.RECHARGE || recordType == RecordType.WITHDRAW)
 		{
 			if (method != "支付宝" && method != "微信") throw new RequestException("方式应为\"支付宝\"或\"微信\"");
 		}
-		else if (recordType == "trade")
+		else if (recordType == RecordType.TRADE)
 		{
 			if (method != null) throw new RequestException("方式应为null");
 		}
@@ -128,7 +130,7 @@ public class Request
 	 * 返回类型
 	 * @return recordType
 	 */
-	public String getRecordType()
+	public RecordType getRecordType()
 	{
 		return recordType;
 	}
