@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ClearSettlementSystem.iml" filepath="$PROJECT_DIR$/ClearSettlementSystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Clearing/Clearing.iml" filepath="$PROJECT_DIR$/Clearing/Clearing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Interface/Interface.iml" filepath="$PROJECT_DIR$/Interface/Interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Provider/Provider.iml" filepath="$PROJECT_DIR$/Provider/Provider.iml" />
+    </modules>
+  </component>
+</project>
