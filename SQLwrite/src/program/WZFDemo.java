@@ -2,7 +2,6 @@ package program;
 
 import java.sql.Date;
 
-import request.Result;
 import request.RechargeRequest;
 import request.WithdrawRequest;
 import request.TradeRequest;
@@ -11,9 +10,9 @@ import sql_connection.SQLConnection;
 
 /**
  * @author 王正飞
- * @version 0.3
+ * @version 0.4
  * 
- * 2018/4/25
+ * 2018/5/20
  * Eclipse Oxygen
  */
 
@@ -43,10 +42,26 @@ public class WZFDemo
 			 * 端口号: 3306
 			 * 账户: ruangong
 			 * 密码: ruangong
-			 * 数据库名: bill
-			 * 表: record
+			 * 数据库名: css
+			 * 充值请求表: recharge
+			 * 提现请求表: withdraw
+			 * 交易请求表: trade
 			 */
-			SQLConnection sqlConnection = new SQLConnection("jdbc:mysql://localhost:3306/bill?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8", "ruangong", "ruangong");
+			String server = "localhost";
+			String port = "3306";
+			String database = "css";
+			String username = "ruangong";
+			String password = "ruangong";
+			
+			SQLConnection sqlConnection = new SQLConnection
+			(
+				"jdbc:mysql://" + 
+				server +  ":" +
+				port + "/" + 
+				database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8", 
+				username, 
+				password
+			);
 			
 			/**
 			 * 充值请求：RechargeRequest
@@ -55,16 +70,16 @@ public class WZFDemo
 			 */
 			
 			//创建请求
-			RechargeRequest rechargeRequest = new RechargeRequest(123, 456, 7.89f, true, new Date(0), true);
-			WithdrawRequest withdrawRequest = new WithdrawRequest(987, 654, 3.21f, true, new Date(0), false);
-			TradeRequest tradeRequest = new TradeRequest(111, 222, 333, 4.44f, true, new Date(0));
+			RechargeRequest rechargeRequest = new RechargeRequest(123, 456, 7.89f, true, true, new Date(0));
+			WithdrawRequest withdrawRequest = new WithdrawRequest(987, 654, 3.21f, true, false, new Date(1));
+			TradeRequest tradeRequest = new TradeRequest(111, 222, 333, 4.44f, true, new Date(2));
 			
 			//发送请求，并返回请求ID，若失败返回-1
 			int rechargeRequestID = sqlConnection.sendRequest(rechargeRequest);
 			int withdrawRequestID = sqlConnection.sendRequest(withdrawRequest);
 			int tradeRequestID = sqlConnection.sendRequest(tradeRequest);
 			
-			//至此，账户"ruangong"的数据库"bill"的表"recharge"、"withdraw"和"trade"中已经分别添加了上述请求账单
+			//至此，账户"ruangong"的数据库"css"的表"recharge"、"withdraw"和"trade"中已经分别添加了上述请求账单
 			System.out.println("Recharge Request ID: " + rechargeRequestID);
 			System.out.println("Withdraw Request ID: " + withdrawRequestID);
 			System.out.println("Trade Request ID: " + tradeRequestID);

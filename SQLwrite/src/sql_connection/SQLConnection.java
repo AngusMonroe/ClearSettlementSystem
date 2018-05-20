@@ -40,14 +40,15 @@ public class SQLConnection
 	{
 		try
 		{
-			String sql = "INSERT INTO recharge VALUES(?,?,?,?,?,?)";
+			String sql = "INSERT INTO recharge VALUES(?,?,?,?,?,?,?)";
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, r.getRequestID() + "");
 			pstmt.setString(2, r.getUserID() + "");
-			pstmt.setString(3, r.getAmount() + "");
-			pstmt.setString(4, r.getTimestamp() + "");
-			pstmt.setString(5, (r.getState() == true ? 1 : 0) + "");
-			pstmt.setString(6, (r.getState() == true ? 1 : 0) + "");
+			pstmt.setString(3, r.getRequestTime() + "");
+			pstmt.setString(4, r.getAmount() + "");
+			pstmt.setString(5, (r.getMethod() == true ? 1 : 0) + "");
+			pstmt.setString(6, (r.getOperateStatus() == true ? 1 : 0) + "");
+			pstmt.setString(7, (r.getRequestStatus() == true ? 1 : 0) + "");
 			pstmt.execute();
 			return r.getRequestID();
 		}
@@ -67,14 +68,15 @@ public class SQLConnection
 	{
 		try
 		{
-			String sql = "INSERT INTO withdraw VALUES(?,?,?,?,?,?)";
+			String sql = "INSERT INTO withdraw VALUES(?,?,?,?,?,?,?)";
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, r.getRequestID() + "");
 			pstmt.setString(2, r.getUserID() + "");
-			pstmt.setString(3, r.getAmount() + "");
-			pstmt.setString(4, r.getTimestamp() + "");
-			pstmt.setString(5, (r.getState() == true ? 1 : 0) + "");
-			pstmt.setString(6, (r.getState() == true ? 1 : 0) + "");
+			pstmt.setString(3, r.getRequestTime() + "");
+			pstmt.setString(4, r.getAmount() + "");
+			pstmt.setString(5, (r.getMethod() == true ? 1 : 0) + "");
+			pstmt.setString(6, (r.getOperateStatus() == true ? 1 : 0) + "");
+			pstmt.setString(7, (r.getRequestStatus() == true ? 1 : 0) + "");
 			pstmt.execute();
 			return r.getRequestID();
 		}
@@ -94,14 +96,15 @@ public class SQLConnection
 	{
 		try
 		{
-			String sql = "INSERT INTO trade VALUES(?,?,?,?,?,?)";
+			String sql = "INSERT INTO trade VALUES(?,?,?,?,?,?,?)";
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, r.getRequestID() + "");
 			pstmt.setString(2, r.getUserID() + "");
-			pstmt.setString(3, r.getSellerID() + "");
-			pstmt.setString(4, r.getAmount() + "");
-			pstmt.setString(5, r.getTimestamp() + "");
-			pstmt.setString(6, (r.getState() == true ? 1 : 0) + "");
+			pstmt.setString(3, r.getMerchantID() + "");
+			pstmt.setString(4, r.getRequestTime() + "");
+			pstmt.setString(5, r.getAmount() + "");
+			pstmt.setString(6, (r.getOperateStatus() == true ? 1 : 0) + "");
+			pstmt.setString(7, (r.getRequestStatus() == true ? 1 : 0) + "");
 			pstmt.execute();
 			return r.getRequestID();
 		}

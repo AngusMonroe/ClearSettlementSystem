@@ -11,32 +11,35 @@ public class Request
 {	
 	protected int requestID;
 	protected int userID;
-	protected int sellerID;
+	protected int merchantID;
 	protected float amount;
-	protected boolean state;
-	protected Date timestamp;
+	protected boolean operateStatus;
+	protected boolean requestStatus;
 	protected boolean method;
+	protected Date requestTime;
 
 	/**
 	 * 请求类构造函数
 	 * @param requestID 请求ID
 	 * @param userID 用户ID
-	 * @param sellerID 商家ID
+	 * @param merchantID 商家ID
 	 * @param amount 金额
-	 * @param state 操作状态
-	 * @param timestamp 请求时间，需要的类型：{@link java.sql.Date}
+	 * @param operateStatus 操作状态
+	 * @param requestStatus 请求状态
 	 * @param method 方式:false-微信 或 true-支付宝
+	 * @param requestTime 请求时间，需要的类型：{@link java.sql.Date}
 	 * @throws RequestException
 	 */
-	protected Request(int requestID, int userID, int sellerID, float amount, boolean state, Date timestamp, boolean method) throws RequestException
+	protected Request(int requestID, int userID, int merchantID, float amount, boolean operateStatus, boolean requestStatus, boolean method, Date requestTime) throws RequestException
 	{
 		this.requestID = requestID;
 		this.userID = userID;
-		this.sellerID = sellerID;
+		this.merchantID = merchantID;
 		this.amount = amount;
-		this.state = state;
-		this.timestamp = timestamp;
+		this.operateStatus = operateStatus;
+		this.requestStatus = requestStatus;
 		this.method = method;
+		this.requestTime = requestTime;
 	}
 	
 	/**
@@ -61,9 +64,9 @@ public class Request
 	 * 返回商家ID
 	 * @return sellerID
 	 */
-	public int getSellerID()
+	public int getMerchantID()
 	{
-		return sellerID;
+		return merchantID;
 	}
 	
 	/**
@@ -79,18 +82,18 @@ public class Request
 	 * 返回操作状态
 	 * @return state
 	 */
-	public boolean getState()
+	public boolean getOperateStatus()
 	{
-		return state;
+		return operateStatus;
 	}
 	
 	/**
-	 * 返回请求时间，返回的类型：{@link java.sql.Date}
-	 * @return timestamp
+	 * 返回请求状态
+	 * @return state
 	 */
-	public Date getTimestamp()
+	public boolean getRequestStatus()
 	{
-		return timestamp;
+		return requestStatus;
 	}
 	
 	/**
@@ -100,5 +103,23 @@ public class Request
 	public boolean getMethod()
 	{
 		return method;
+	}
+	
+	/**
+	 * 返回请求时间，返回的类型：{@link java.sql.Date}
+	 * @return timestamp
+	 */
+	public Date getRequestTime()
+	{
+		return requestTime;
+	}
+	
+	/**
+	 * 设置操作状态
+	 * @param operateStatus 操作状态
+	 */
+	public void setOperateStatus(boolean operateStatus)
+	{
+		this.operateStatus = operateStatus;
 	}
 }

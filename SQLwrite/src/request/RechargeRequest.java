@@ -14,13 +14,13 @@ public final class RechargeRequest extends Request
 	 * @param requestID 请求ID
 	 * @param userID 用户ID
 	 * @param amount 充值金额
-	 * @param state 操作状态
-	 * @param timestamp 请求时间，需要的类型：{@link java.sql.Date}
+	 * @param requestStatus 请求状态
 	 * @param method 方式:false-微信 或 true-支付宝
+	 * @param requestTime 请求时间，需要的类型：{@link java.sql.Date}
 	 * @throws RequestException
 	 */
-	public RechargeRequest(int requestID, int userID, float amount, boolean state, Date timestamp, boolean method) throws RequestException
+	public RechargeRequest(int requestID, int userID, float amount, boolean requestStatus, boolean method, Date requestTime) throws RequestException
 	{
-		super(requestID, userID, 0, amount, state, timestamp, method);
+		super(requestID, userID, 0, amount, false, requestStatus, method, requestTime);
 	}
 }
