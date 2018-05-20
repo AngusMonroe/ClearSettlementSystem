@@ -1,4 +1,4 @@
-ClearSettlementSystem
+﻿ClearSettlementSystem
 =====================
 
 ### Divide the work
@@ -48,48 +48,48 @@ ClearSettlementSystem
 
 - 充值表
 
-	表名：Recharge_record
+	表名：recharge
 	
 	字段：
 	
 	| 字段名 | 中文描述 | 类型 | 长度 | 是否可以为空 | 备注 |
 	|-----|------|----|----|--------|----|
-	| Request_id | 请求ID | int | 10 | 否 | 主键 |
-	| User_id | 用户账户ID | int | 10 | 否 | |
-	| Request_time | 请求时间 | date | 14 | 否 | |
-	| Amt | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
-	| RW_method | 充值/提现方式 | bool | 1 | 否 |  0-微信<br>1-支付宝 |
-	| Operate_status | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
-	| Request_status | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
+	| request_id | 请求ID | int | 10 | 否 | 主键 |
+	| user_id | 用户账户ID | int | 10 | 否 | |
+	| request_time | 请求时间 | date | 14 | 否 | |
+	| amount | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
+	| method | 充值/提现方式 | bool | 1 | 否 |  0-微信<br>1-支付宝 |
+	| operate_status | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
+	| request_status | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
 
 - 提现表
 
-	表名：Withdraw_record
+	表名：withdraw
 	
 	字段：
 	
 	| 字段名 | 中文描述 | 类型 | 长度 | 是否可以为空 | 备注 |
 	|-----|------|----|----|--------|----|
-	| Request_id | 请求ID | int | 10 | 否 | 主键 |
-	| User_id | 用户账户ID | int | 10 | 否 | |
-	| Request_time | 请求时间 | date | 14 | 否 | |
-	| Amt | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
-	| RW_method | 充值/提现方式 | bool | 1 | 否 |  0-微信<br>1-支付宝 |
-	| Operate_status | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
-	| Request_status | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
+	| request_id | 请求ID | int | 10 | 否 | 主键 |
+	| user_id | 用户账户ID | int | 10 | 否 | |
+	| request_time | 请求时间 | date | 14 | 否 | |
+	| amount | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
+	| method | 充值/提现方式 | bool | 1 | 否 |  0-微信<br>1-支付宝 |
+	| operate_status | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
+	| request_status | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
 
 - 消费表
 
-	表名：Consume_record
+	表名：trade
 	
 	字段：
 	
 	| 字段名 | 中文描述 | 类型 | 长度 | 是否可以为空 | 备注 |
 	|-----|------|----|----|--------|----|
-	| Request_id | 请求ID | int | 10 | 否 | 主键 |
-	| User_id | 用户账户ID | int | 10 | 否 | |
-	| Merchant_id | 商户账户ID | int | 10 | 否 | |
-	| Request_time | 请求时间 | date | 14 | 否 | |
-	| Amt | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
-	| Operate_status | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
-	| Request_status | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
+	| request_id | 请求ID | int | 10 | 否 | 主键 |
+	| user_id | 用户账户ID | int | 10 | 否 | |
+	| merchant_id | 商户账户ID | int | 10 | 否 | |
+	| request_time | 请求时间 | date | 14 | 否 | |
+	| amount | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
+	| operate_status | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
+	| request_status | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
