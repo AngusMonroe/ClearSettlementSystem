@@ -4,18 +4,18 @@ import java.sql.Date;
 
 import exception.RequestException;
 
+/**
+ * 请求类
+ */
 public class Request
-{
-	public enum RecordType { RECHARGE, WITHDRAW, TRADE }
-	
+{	
 	protected int requestID;
 	protected int userID;
 	protected int sellerID;
 	protected float amount;
 	protected boolean state;
 	protected Date timestamp;
-	protected String method;
-	protected RecordType recordType;
+	protected boolean method;
 
 	/**
 	 * 请求类构造函数
@@ -25,11 +25,10 @@ public class Request
 	 * @param amount 金额
 	 * @param state 操作状态
 	 * @param timestamp 请求时间，需要的类型：{@link java.sql.Date}
-	 * @param method 方式:"支付宝"或"微信"或null，依赖于recordType
-	 * @param recordType 类型:"recharge"或"withdraw"或"trade"
+	 * @param method 方式:false-微信 或 true-支付宝
 	 * @throws RequestException
 	 */
-	protected Request(int requestID, int userID, int sellerID, float amount, boolean state, Date timestamp, String method, RecordType recordType) throws RequestException
+	protected Request(int requestID, int userID, int sellerID, float amount, boolean state, Date timestamp, boolean method) throws RequestException
 	{
 		this.requestID = requestID;
 		this.userID = userID;
@@ -38,29 +37,6 @@ public class Request
 		this.state = state;
 		this.timestamp = timestamp;
 		this.method = method;
-		this.recordType = recordType;
-		
-		if (recordType == RecordType.RECHARGE || recordType == RecordType.WITHDRAW)
-		{
-			if (method != "支付宝" && method != "微信") throw new RequestException("方式应为\"支付宝\"或\"微信\"");
-		}
-		else if (recordType == RecordType.TRADE)
-		{
-			if (method != null) throw new RequestException("方式应为null");
-		}
-		else
-		{
-			throw new RequestException("类型应为\"recharge\"或\"withdraw\"或\"trade\"");
-		}
-	}
-	
-	/**
-	 * 获取结果信息
-	 * @return 请求结果
-	 */
-	public Result getResult()
-	{
-		return new Result(requestID, userID, amount, state);
 	}
 	
 	/**
@@ -121,17 +97,8 @@ public class Request
 	 * 返回充值方式
 	 * @return method
 	 */
-	public String getMethod()
+	public boolean getMethod()
 	{
 		return method;
-	}
-	
-	/**
-	 * 返回类型
-	 * @return recordType
-	 */
-	public RecordType getRecordType()
-	{
-		return recordType;
 	}
 }
