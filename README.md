@@ -1,4 +1,4 @@
-﻿ClearSettlementSystem
+ClearSettlementSystem
 =====================
 
 ### Divide the work
@@ -14,9 +14,8 @@
 - java
 - jdk 1.8
 - 开发工具：Intellij IDEA
-- 缓存框架：Redis
 - 日志管理：SLF4J、Log4j2
-- 数据库：MySQL
+- 数据库：MySQL 8.0.11.0
 
 ### API
 
