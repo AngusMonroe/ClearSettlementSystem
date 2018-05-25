@@ -1,4 +1,4 @@
-ClearSettlementSystem
+﻿ClearSettlementSystem
 =====================
 
 ### Divide the work
@@ -53,13 +53,13 @@ ClearSettlementSystem
 	
 	| 字段名 | 中文描述 | 类型 | 长度 | 是否可以为空 | 备注 |
 	|-----|------|----|----|--------|----|
-	| requestID | 请求ID | int | 10 | 否 | 主键 |
-	| userID | 用户账户ID | int | 10 | 否 | |
-	| requestTime | 请求时间 | date | 14 | 否 | |
-	| amount | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
-	| method | 充值/提现方式 | bool | 1 | 否 |  0-微信<br>1-支付宝 |
-	| operateStatus | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
-	| requestStatus | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
+	| requestID | 请求ID | int | 11 | 否 | 主键 |
+	| userID | 用户账户ID | int | 11 | 否 | |
+	| requestTime | 请求时间 | date |  | 否 | |
+	| amount | 金额 | float |  | 否 |  单位：元<br>保留两位小数 |
+	| method | 充值/提现方式 | tinyint | 4 | 否 |  0-微信<br>1-支付宝 |
+	| operateStatus | 操作状态 | tinyint | 4 | 否 | 0-待清分<br>1-已清分 |
+	| requestStatus | 请求状态 | tinyint | 4 | 否 | 若为0，进行缓存 |
 
 - 提现表
 
@@ -69,13 +69,13 @@ ClearSettlementSystem
 	
 	| 字段名 | 中文描述 | 类型 | 长度 | 是否可以为空 | 备注 |
 	|-----|------|----|----|--------|----|
-	| requestID | 请求ID | int | 10 | 否 | 主键 |
-	| userID | 用户账户ID | int | 10 | 否 | |
-	| requestTime | 请求时间 | date | 14 | 否 | |
-	| amount | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
-	| method | 充值/提现方式 | bool | 1 | 否 |  0-微信<br>1-支付宝 |
-	| operateStatus | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
-	| requestStatus | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
+	| requestID | 请求ID | int | 11 | 否 | 主键 |
+	| userID | 用户账户ID | int | 11 | 否 | |
+	| requestTime | 请求时间 | date |  | 否 | |
+	| amount | 金额 | float |  | 否 |  单位：元<br>保留两位小数 |
+	| method | 充值/提现方式 | tinyint | 4 | 否 |  0-微信<br>1-支付宝 |
+	| operateStatus | 操作状态 | tinyint | 4 | 否 | 0-待清分<br>1-已清分 |
+	| requestStatus | 请求状态 | tinyint | 4 | 否 | 若为0，进行缓存 |
 
 - 消费表
 
@@ -85,10 +85,10 @@ ClearSettlementSystem
 	
 	| 字段名 | 中文描述 | 类型 | 长度 | 是否可以为空 | 备注 |
 	|-----|------|----|----|--------|----|
-	| requestID | 请求ID | int | 10 | 否 | 主键 |
-	| userID | 用户账户ID | int | 10 | 否 | |
-	| merchantID | 商户账户ID | int | 10 | 否 | |
-	| requestTime | 请求时间 | date | 14 | 否 | |
-	| amount | 金额 | float | 11 | 否 |  单位：元<br>保留两位小数 |
-	| operateStatus | 操作状态 | bool | 1 | 否 | 0-待清分<br>1-已清分 |
-	| requestStatus | 请求状态 | bool | 1 | 否 | 若为false，进行缓存 |
+	| requestID | 请求ID | int | 11 | 否 | 主键 |
+	| userID | 用户账户ID | int | 11 | 否 | |
+	| merchantID | 商户账户ID | int | 11 | 否 | |
+	| requestTime | 请求时间 | date |  | 否 | |
+	| amount | 金额 | float |  | 否 |  单位：元<br>保留两位小数 |
+	| operateStatus | 操作状态 | tinyint | 4 | 否 | 0-待清分<br>1-已清分 |
+	| requestStatus | 请求状态 | tinyint | 4 | 否 | 若为0，进行缓存 |
