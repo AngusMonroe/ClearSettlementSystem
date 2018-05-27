@@ -23,20 +23,18 @@ public class Util {
 	
 //	格式：
 //	{
-//		"sellerID": 1,
-//		"moneyAmount": 10,
-//		"operator": 1,
-//		"status": true
+//		"merchantID": 1,
+//		"amount": 10,
+//		"fee": 1,
 //	}
 	private static JSONObject transform(Message message) {
 		if (message == null)
 			throw new NullPointerException();
 		JSONObject jsObject = new JSONObject();
 		try {
-			jsObject.put("sellerID", message.sellerID);
-			jsObject.put("moneyAmount", message.moneyAmount);
-			jsObject.put("operator", message.operator);
-			jsObject.put("status", message.status);
+			jsObject.put("merchantID", message.merchantID);
+			jsObject.put("amount", message.amount);
+			jsObject.put("fee", message.fee);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -45,15 +43,13 @@ public class Util {
 	
 //	格式：
 //	[{
-//		"sellerID": 1,
-//		"moneyAmount": 10,
-//		"operator": 1,
-//		"status": true
+//		"merchantID": 1,
+//		"amount": 10,
+//		"fee": 1,
 //	}, {
-//		"sellerID": 1,
-//		"moneyAmount": 10,
-//		"operator": 1,
-//		"status": true
+//		"merchantID": 2,
+//		"amount": 20,
+//		"fee": 2,
 //	}]
 //	空数组文件为[]
 	private static JSONArray transform(ArrayList<Message> messages) {
@@ -105,7 +101,7 @@ public class Util {
 	
 	public static void main(String[] args) throws JSONException {
 		
-		JSONObject jsObject = transform(new Message(1, 10, true));
+		JSONObject jsObject = transform(new Message(1, 10, 1));
 		JSONArray jsArray = new JSONArray();
 		jsArray.put(0, jsObject);
 		jsArray.put(1, jsObject);
