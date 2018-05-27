@@ -3,12 +3,16 @@ package sql_connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 //import java.sql.ResultSet;
 //import java.sql.Statement;
 //import java.util.ArrayList;
+import java.util.ArrayList;
 
 import request.RechargeRequest;
 import request.WithdrawRequest;
+import zzxPackage.Message;
 import request.TradeRequest;
 //import zzxPackage.Message;
 
@@ -115,9 +119,6 @@ public class SQLConnection
 		}
 	}
 	
-	/*
-	   ZZX
-	
 	// ·µ»ØsellerID,count£¬record_type£¬status
 	public ArrayList<Message> clearing() throws Exception {
 		
@@ -156,7 +157,5 @@ public class SQLConnection
 		}
 		return messages;
 	}
-	
-	*/
 	
 }
