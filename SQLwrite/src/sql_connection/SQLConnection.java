@@ -123,7 +123,7 @@ public class SQLConnection
 	// ------- 已下是zzx的数据库函数操作，若报错全部注释掉就行 -----------//
 	
 	// 返回merchantID,userID，amount，fee
-	public ArrayList<ClearingMessage> clearing() throws Exception {
+	public ArrayList<ClearingMessage> clearing() throws SQLException {
 		
 		String sql = "SELECT merchantID, userID, amount "
 				+ "FROM trade "
