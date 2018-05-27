@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 //import java.sql.Statement;
 //import java.util.ArrayList;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -121,7 +122,7 @@ public class SQLConnection
 	
 	// ------- 已下是zzx的数据库函数操作，若报错全部注释掉就行 -----------//
 	
-	// 返回sellerID,count，record_type，status
+	// 返回merchantID,userID，amount，fee
 	public ArrayList<Message> clearing() throws Exception {
 		
 		String sql = "SELECT merchantID, userID, amount "
