@@ -16,8 +16,8 @@ public class Util {
 	// 相对路径
 	private static final String path = "account/";
 	
-	public static void writeFile(ArrayList<Message> messages) {
-		JSONArray jsArray = transform(messages);
+	public static void writeFile(ArrayList<ClearingMessage> clearingMessages) {
+		JSONArray jsArray = transform(clearingMessages);
 		writeFile(jsArray);
 	}
 	
@@ -27,14 +27,14 @@ public class Util {
 //		"amount": 10,
 //		"fee": 1,
 //	}
-	private static JSONObject transform(Message message) {
-		if (message == null)
+	private static JSONObject transform(ClearingMessage clearingMessage) {
+		if (clearingMessage == null)
 			throw new NullPointerException();
 		JSONObject jsObject = new JSONObject();
 		try {
-			jsObject.put("merchantID", message.merchantID);
-			jsObject.put("amount", message.amount);
-			jsObject.put("fee", message.fee);
+			jsObject.put("merchantID", clearingMessage.merchantID);
+			jsObject.put("amount", clearingMessage.amount);
+			jsObject.put("fee", clearingMessage.fee);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -52,14 +52,14 @@ public class Util {
 //		"fee": 2,
 //	}]
 //	空数组文件为[]
-	private static JSONArray transform(ArrayList<Message> messages) {
-		if(messages == null)
+	private static JSONArray transform(ArrayList<ClearingMessage> clearingMessages) {
+		if(clearingMessages == null)
 			throw new NullPointerException();
 		
 		int index = 0;
 		JSONArray jsArray = new JSONArray();
-		for(Message message : messages) {
-			JSONObject jsObject = transform(message);
+		for(ClearingMessage clearingMessage : clearingMessages) {
+			JSONObject jsObject = transform(clearingMessage);
 			try {
 				jsArray.put(index++, jsObject);
 			} catch (JSONException e) {
@@ -89,7 +89,7 @@ public class Util {
 	}
 		
 	/** @return eg: 2018_9_13 */
-	private static String getDate(){
+	public static String getDate(){
 		Calendar cal = Calendar.getInstance();
 		String date, day, month, year;
 		year = String.valueOf(cal.get(Calendar.YEAR));
@@ -101,7 +101,7 @@ public class Util {
 	
 	public static void main(String[] args) throws JSONException {
 		
-		JSONObject jsObject = transform(new Message(1, 10, 1));
+		JSONObject jsObject = transform(new ClearingMessage(1, 10, 1));
 		JSONArray jsArray = new JSONArray();
 		jsArray.put(0, jsObject);
 		jsArray.put(1, jsObject);

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import request.RechargeRequest;
 import request.WithdrawRequest;
 import zzxPackage.Constant;
-import zzxPackage.Message;
+import zzxPackage.ClearingMessage;
 import request.TradeRequest;
 
 /**
@@ -123,7 +123,7 @@ public class SQLConnection
 	// ------- 已下是zzx的数据库函数操作，若报错全部注释掉就行 -----------//
 	
 	// 返回merchantID,userID，amount，fee
-	public ArrayList<Message> clearing() throws Exception {
+	public ArrayList<ClearingMessage> clearing() throws Exception {
 		
 		String sql = "SELECT merchantID, userID, amount "
 				+ "FROM trade "
@@ -131,9 +131,9 @@ public class SQLConnection
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
 		
-		ArrayList<Message> messages = new ArrayList<Message>();
+		ArrayList<ClearingMessage> clearingMessages = new ArrayList<ClearingMessage>();
 		int notExist = -1;
-		Message currMessage = new Message(notExist); // 不存在seller
+		ClearingMessage currClearingMessage = new ClearingMessage(notExist); // 不存在seller
 		while(rs.next()){
             // 通过字段检索
             int merchantID  = rs.getInt("merchantID");
@@ -141,19 +141,21 @@ public class SQLConnection
             float amount = rs.getFloat("amount");
             
             // 添加信息
-            if (currMessage.merchantID == notExist && currMessage.merchantID != merchantID) {
-            	currMessage = new Message(merchantID);
-            } else if(currMessage.merchantID != notExist && currMessage.merchantID != merchantID) {
-            	messages.add(currMessage);
-            	currMessage = new Message(merchantID);
+            if (currClearingMessage.merchantID == notExist && currClearingMessage.merchantID != merchantID) {
+            	currClearingMessage = new ClearingMessage(merchantID);
+            } else if(currClearingMessage.merchantID != notExist && currClearingMessage.merchantID != merchantID) {
+            	clearingMessages.add(currClearingMessage);
+            	currClearingMessage = new ClearingMessage(merchantID);
             }
-            currMessage.amount += amount * (1 - Constant.texRatio);
-            currMessage.fee += amount * Constant.texRatio;
+            currClearingMessage.amount += amount * (1 - Constant.texRatio);
+            currClearingMessage.fee += amount * Constant.texRatio;
         }
-		if (currMessage.merchantID != notExist) {
-			messages.add(currMessage);
+		if (currClearingMessage.merchantID != notExist) {
+			clearingMessages.add(currClearingMessage);
 		}
-		return messages;
+		return clearingMessages;
 	}
-		
+	
+	
+	
 }

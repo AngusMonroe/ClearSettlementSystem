@@ -3,7 +3,7 @@ package program;
 import java.util.ArrayList;
 
 import sql_connection.SQLConnection;
-import zzxPackage.Message;
+import zzxPackage.ClearingMessage;
 import zzxPackage.Util;;
 
 public class ZZXDemo {
@@ -14,8 +14,8 @@ public class ZZXDemo {
 					"ruangong",
 					"record"
 					);
-			ArrayList<Message> messages = sqlConnection.clearing();
-			Util.writeFile(messages);
+			ArrayList<ClearingMessage> clearingMessages = sqlConnection.clearing();
+			Util.writeFile(clearingMessages);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
