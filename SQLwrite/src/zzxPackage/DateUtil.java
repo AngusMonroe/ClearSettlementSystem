@@ -52,12 +52,12 @@ public class DateUtil {
 	
 	/** @return eg: 2018-9-13 */
 	public static String getCurrDate() {
-		DateFormat dateTimeformat = new SimpleDateFormat(dateFormat[0]);
+		DateFormat dateTimeformat = new SimpleDateFormat(dateFormat[1]);
 		return dateTimeformat.format(new Date());
 	}
 	
 	public static String getCurrDateTime() {
-		DateFormat dateTimeformat = new SimpleDateFormat(dateFormat[1]);
+		DateFormat dateTimeformat = new SimpleDateFormat(dateFormat[0]);
 		return dateTimeformat.format(new Date());
 	}
 	

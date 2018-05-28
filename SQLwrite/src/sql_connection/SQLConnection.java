@@ -135,7 +135,7 @@ public class SQLConnection
 		String now = DateUtil.dateToString(currDate, 0);
 		String sql = "SELECT merchantID, userID, amount "
 				+ "FROM trade "
-				+ "WHERE requestTime > " + before + " AND requestTime < " + now + " "
+				+ "WHERE requestTime > '" + before + "' AND requestTime < '" + now + "' "
 				+ "GROUP BY merchantID";
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
@@ -187,7 +187,7 @@ public class SQLConnection
 		if (kind == 0) {
 			String sql = "SELECT requestID, userID, requestTime, amount, method "
 					+ " FROM recharge "
-					+ " WHERE requestTime > " + startTime + " AND requestTime < " + endTime;
+					+ " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			messages = new ArrayList<Message>();
@@ -206,7 +206,7 @@ public class SQLConnection
 		} else if (kind == 1) {
 			String sql = "SELECT requestID, userID, requestTime, amount, method "
 					+ " FROM withdraw "
-					+ " WHERE requestTime > " + startTime + " AND requestTime < " + endTime;
+					+ " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			messages = new ArrayList<Message>();
@@ -225,7 +225,7 @@ public class SQLConnection
 		} else if (kind == 2) {
 			String sql = "SELECT requestID, userID, mrechantID, requestTime, amount, operateStatus"
 					+ " FROM trade "
-					+ " WHERE requestTime > " + startTime + " AND requestTime < " + endTime;
+					+ " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			messages = new ArrayList<Message>();

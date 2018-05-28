@@ -10,11 +10,22 @@ import zzxPackage.JSONUtil;;
 public class ZZXDemo {
 	public static void main(String[] args) {
 		try {
-			SQLConnection sqlConnection = new SQLConnection(
-					"jdbc:mysql://localhost:3306/bill?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
-					"ruangong",
-					"record"
-					);
+			String server = "localhost";
+			String port = "3306";
+			String database = "css";
+			String username = "ruangong";
+			String password = "ruangong";
+			
+			SQLConnection sqlConnection = new SQLConnection
+			(
+				"jdbc:mysql://" + 
+				server +  ":" +
+				port + "/" + 
+				database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8", 
+				username, 
+				password
+			);
+			
 			JSONArray jsArray = sqlConnection.clearing();
 			JSONUtil.writeFile(jsArray);
 		} catch (Exception e) {
