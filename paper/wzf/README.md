@@ -1,38 +1,36 @@
-###充值：
+﻿###充值：
 RechargeRequest构造方法
 
 | 参数类型 | 参数名 | 参数描述 | 备注 |
 | ---- | ---- | ---- | ---- |
-| int | requestID | 请求ID | 无 |
-| int | userID | 用户ID | 无 |
+| String | requestID | 请求ID | 无 |
+| String | userID | 用户ID | 无 |
 | float | amount | 充值金额 | 无 |
-| boolean | requestStatus | 请求状态 | 无 |
 | boolean | method | 充值方式 | false-微信 true-支付宝 |
-| Date | requestTime | 请求时间 | 类型: java.sql.Date |
+| String | requestTime | 请求时间 | 无 |
 
 ###提现：
 WithdrawRequest构造方法
 
 | 参数类型 | 参数名 | 参数描述 | 备注 |
 | ---- | ---- | ---- | ---- |
-| int | requestID | 请求ID | 无 |
-| int | userID | 用户ID | 无 |
+| String | requestID | 请求ID | 无 |
+| String | userID | 用户ID | 无 |
 | float | amount | 提现金额 | 无 |
-| boolean | requestStatus | 请求状态 | 无 |
 | boolean | method | 提现方式 | false-微信 true-支付宝 |
-| Date | requestTime | 请求时间 | 类型: java.sql.Date |
+| String | requestTime | 请求时间 | 无 |
 
 ###交易：
 TradeRequest构造方法
 
 | 参数类型 | 参数名 | 参数描述 | 备注 |
 | ---- | ---- | ---- | ---- |
-| int | requestID | 请求ID | 无 |
-| int | userID | 用户ID | 无 |
-| int | merchantID | 商户ID | 无 |
+| String | requestID | 请求ID | 无 |
+| String | userID | 用户ID | 无 |
+| String | merchantID | 商户ID | 无 |
 | float | amount | 提现金额 | 无 |
-| boolean | requestStatus | 请求状态 | 无 |
-| Date | requestTime | 请求时间 | 类型: java.sql.Date |
+| boolean | operateStatus | 操作状态 | 无 |
+| String | requestTime | 请求时间 | 无 |
 
 ###连接数据库：
 SQLConnection构造方法
@@ -47,7 +45,7 @@ SQLConnection构造方法
 sendRequest方法
 
 说明：类SQLConnection中有sendRequest方法以发送请求。
-成功返回请求ID，失败返回-1.
+成功返回请求ID，失败返回"-1".
 
 | 参数类型 | 参数名 | 参数描述 | 备注 |
 | ---- | ---- | ---- | ---- |

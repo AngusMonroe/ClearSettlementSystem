@@ -1,7 +1,5 @@
 package program;
 
-import java.sql.Date;
-
 import request.RechargeRequest;
 import request.WithdrawRequest;
 import request.TradeRequest;
@@ -10,9 +8,9 @@ import sql_connection.SQLConnection;
 
 /**
  * @author 王正飞
- * @version 0.4
+ * @version 0.5
  * 
- * 2018/5/20
+ * 2018/5/28
  * Eclipse Oxygen
  */
 
@@ -70,14 +68,14 @@ public class WZFDemo
 			 */
 			
 			//创建请求
-			RechargeRequest rechargeRequest = new RechargeRequest(123, 456, 7.89f, true, true, new Date(0));
-			WithdrawRequest withdrawRequest = new WithdrawRequest(987, 654, 3.21f, true, false, new Date(1));
-			TradeRequest tradeRequest = new TradeRequest(111, 222, 333, 4.44f, true, new Date(2));
+			RechargeRequest rechargeRequest = new RechargeRequest("123", "456", 7.89f, true, "2018-5-28 15:42:00");
+			WithdrawRequest withdrawRequest = new WithdrawRequest("987", "654", 3.21f, true, "2019-6-29 16:43:01");
+			TradeRequest tradeRequest = new TradeRequest("111", "222", "333", 4.44f, true, "2020-7-30 17:44:02");
 			
-			//发送请求，并返回请求ID，若失败返回-1
-			int rechargeRequestID = sqlConnection.sendRequest(rechargeRequest);
-			int withdrawRequestID = sqlConnection.sendRequest(withdrawRequest);
-			int tradeRequestID = sqlConnection.sendRequest(tradeRequest);
+			//发送请求，并返回请求ID，若失败返回"-1"
+			String rechargeRequestID = sqlConnection.sendRequest(rechargeRequest);
+			String withdrawRequestID = sqlConnection.sendRequest(withdrawRequest);
+			String tradeRequestID = sqlConnection.sendRequest(tradeRequest);
 			
 			//至此，账户"ruangong"的数据库"css"的表"recharge"、"withdraw"和"trade"中已经分别添加了上述请求账单
 			System.out.println("Recharge Request ID: " + rechargeRequestID);

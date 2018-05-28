@@ -1,7 +1,5 @@
 package request;
 
-import java.sql.Date;
-
 import exception.RequestException;
 
 /**
@@ -9,14 +7,13 @@ import exception.RequestException;
  */
 public class Request
 {	
-	protected int requestID;
-	protected int userID;
-	protected int merchantID;
+	protected String requestID;
+	protected String userID;
+	protected String merchantID;
 	protected float amount;
 	protected boolean operateStatus;
-	protected boolean requestStatus;
 	protected boolean method;
-	protected Date requestTime;
+	protected String requestTime;
 
 	/**
 	 * 请求类构造函数
@@ -27,17 +24,16 @@ public class Request
 	 * @param operateStatus 操作状态
 	 * @param requestStatus 请求状态
 	 * @param method 方式:false-微信 或 true-支付宝
-	 * @param requestTime 请求时间，需要的类型：{@link java.sql.Date}
+	 * @param requestTime 请求时间
 	 * @throws RequestException
 	 */
-	protected Request(int requestID, int userID, int merchantID, float amount, boolean operateStatus, boolean requestStatus, boolean method, Date requestTime) throws RequestException
+	protected Request(String requestID, String userID, String merchantID, float amount, boolean operateStatus, boolean method, String requestTime) throws RequestException
 	{
 		this.requestID = requestID;
 		this.userID = userID;
 		this.merchantID = merchantID;
 		this.amount = amount;
 		this.operateStatus = operateStatus;
-		this.requestStatus = requestStatus;
 		this.method = method;
 		this.requestTime = requestTime;
 	}
@@ -46,7 +42,7 @@ public class Request
 	 * 返回请求ID
 	 * @return requestID
 	 */
-	public int getRequestID()
+	public String getRequestID()
 	{
 		return requestID;
 	}
@@ -55,7 +51,7 @@ public class Request
 	 * 返回用户ID
 	 * @return userID
 	 */
-	public int getUserID()
+	public String getUserID()
 	{
 		return userID;
 	}
@@ -64,7 +60,7 @@ public class Request
 	 * 返回商家ID
 	 * @return sellerID
 	 */
-	public int getMerchantID()
+	public String getMerchantID()
 	{
 		return merchantID;
 	}
@@ -88,15 +84,6 @@ public class Request
 	}
 	
 	/**
-	 * 返回请求状态
-	 * @return state
-	 */
-	public boolean getRequestStatus()
-	{
-		return requestStatus;
-	}
-	
-	/**
 	 * 返回充值方式
 	 * @return method
 	 */
@@ -109,7 +96,7 @@ public class Request
 	 * 返回请求时间，返回的类型：{@link java.sql.Date}
 	 * @return timestamp
 	 */
-	public Date getRequestTime()
+	public String getRequestTime()
 	{
 		return requestTime;
 	}

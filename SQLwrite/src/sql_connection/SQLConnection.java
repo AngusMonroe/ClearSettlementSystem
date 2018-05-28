@@ -3,9 +3,6 @@ package sql_connection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
-//import java.sql.Statement;
-//import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,9 +10,10 @@ import java.util.ArrayList;
 
 import request.RechargeRequest;
 import request.WithdrawRequest;
+import request.TradeRequest;
+
 import zzxPackage.Constant;
 import zzxPackage.ClearingMessage;
-import request.TradeRequest;
 
 /**
  * 数据库连接类
@@ -41,26 +39,24 @@ public class SQLConnection
 	 * @param r 充值请求
 	 * @return 请求ID
 	 */
-	public int sendRequest(RechargeRequest r)
+	public String sendRequest(RechargeRequest r)
 	{
 		try
 		{
-			String sql = "INSERT INTO recharge VALUES(?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO recharge VALUES(?,?,?,?,?)";
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, r.getRequestID() + "");
 			pstmt.setString(2, r.getUserID() + "");
 			pstmt.setString(3, r.getRequestTime() + "");
 			pstmt.setString(4, r.getAmount() + "");
 			pstmt.setString(5, (r.getMethod() == true ? 1 : 0) + "");
-			pstmt.setString(6, (r.getOperateStatus() == true ? 1 : 0) + "");
-			pstmt.setString(7, (r.getRequestStatus() == true ? 1 : 0) + "");
 			pstmt.execute();
 			return r.getRequestID();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			return -1;
+			return "-1";
 		}
 	}
 	
@@ -69,26 +65,24 @@ public class SQLConnection
 	 * @param r 提现请求
 	 * @return 请求ID
 	 */
-	public int sendRequest(WithdrawRequest r)
+	public String sendRequest(WithdrawRequest r)
 	{
 		try
 		{
-			String sql = "INSERT INTO withdraw VALUES(?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO withdraw VALUES(?,?,?,?,?)";
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, r.getRequestID() + "");
 			pstmt.setString(2, r.getUserID() + "");
 			pstmt.setString(3, r.getRequestTime() + "");
 			pstmt.setString(4, r.getAmount() + "");
 			pstmt.setString(5, (r.getMethod() == true ? 1 : 0) + "");
-			pstmt.setString(6, (r.getOperateStatus() == true ? 1 : 0) + "");
-			pstmt.setString(7, (r.getRequestStatus() == true ? 1 : 0) + "");
 			pstmt.execute();
 			return r.getRequestID();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			return -1;
+			return "-1";
 		}
 	}
 	
@@ -97,11 +91,11 @@ public class SQLConnection
 	 * @param r 交易请求
 	 * @return 请求ID
 	 */
-	public int sendRequest(TradeRequest r)
+	public String sendRequest(TradeRequest r)
 	{
 		try
 		{
-			String sql = "INSERT INTO trade VALUES(?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO trade VALUES(?,?,?,?,?,?)";
 			pstmt = connection.prepareStatement(sql);
 			pstmt.setString(1, r.getRequestID() + "");
 			pstmt.setString(2, r.getUserID() + "");
@@ -109,14 +103,13 @@ public class SQLConnection
 			pstmt.setString(4, r.getRequestTime() + "");
 			pstmt.setString(5, r.getAmount() + "");
 			pstmt.setString(6, (r.getOperateStatus() == true ? 1 : 0) + "");
-			pstmt.setString(7, (r.getRequestStatus() == true ? 1 : 0) + "");
 			pstmt.execute();
 			return r.getRequestID();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			return -1;
+			return "-1";
 		}
 	}
 	
@@ -155,7 +148,4 @@ public class SQLConnection
 		}
 		return clearingMessages;
 	}
-	
-	
-	
 }
