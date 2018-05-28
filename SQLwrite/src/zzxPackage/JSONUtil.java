@@ -1,17 +1,41 @@
 package zzxPackage;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.mysql.cj.util.DataTypeUtil;
+
 public class JSONUtil {
 
+	public static JSONArray getJSArrayFromFile(Date date) {
+		String filename = DateUtil.dateToString(date, 1) + ".json";
+        StringBuilder sBuilder = new StringBuilder();
+        try{
+        	FileReader fileReader = new FileReader(Constant.jspath + filename);
+            BufferedReader br = new BufferedReader(fileReader);
+            String s = null;
+            while((s = br.readLine())!=null){//使用readLine方法，一次读一行
+                result.append(System.lineSeparator()+s);
+            }
+            br.close();    
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        String source = sBuilder.toString();
+        JSONArray jsArray = new JSONArray(source);
+	}
+	
 	/**
  	 * 格式：
  	 * [{

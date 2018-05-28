@@ -126,16 +126,35 @@ public class SQLConnection
 	
 	// ------- 已下是zzx的数据库函数操作，若报错全部注释掉就行 -----------//
 	
-	// 返回merchantID,userID，amount，fee
-	public JSONArray clearing() throws SQLException {
+	/**
+	 * 清分
+	 * @throws SQLException
+	 */
+	public void clearing() throws SQLException {
+		JSONArray jsArray = getClearing(new Date());
+		JSONUtil.writeFile(jsArray);
+	}
+
+	/**
+	 * 
+	 * @param date 清分date前一天内的数据库
+	 * @return 获取那一天的清分内容
+	 * @throws SQLException
+	 */
+	private JSONArray getClearing(Date date) throws SQLException {
 		
-		Date adayBefore = DateUtil.toDayBefore(new Date(), 1);
-		Date currDate = new Date();
-		String before = DateUtil.dateToString(adayBefore, 0);
-		String now = DateUtil.dateToString(currDate, 0);
+		Date before15day = DateUtil.toDayBefore(new Date(), 15);
+		if (date.before(before15day)) {
+			throw new TimeOutOfRangeException();
+		}
+		
+		Date start = DateUtil.toDayBefore(date, 1);
+		Date end = date;
+		String startTime = DateUtil.dateToString(start, 0);
+		String endTime = DateUtil.dateToString(end, 0);
 		String sql = "SELECT merchantID, userID, amount "
 				+ "FROM trade "
-				+ "WHERE requestTime > '" + before + "' AND requestTime < '" + now + "' "
+				+ "WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "' "
 				+ "GROUP BY merchantID";
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
