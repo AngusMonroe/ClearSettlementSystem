@@ -1,17 +1,19 @@
 package zzxPackage;
 
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class RechargeMessage implements Message{
 	private String requestID;
 	private String userID;
-	private String requestTime;
+	private Date requestTime;
 	private float amount;
 	private int method;
 	
 	public RechargeMessage(String requestID, String userID, 
-			String requestTime, float amount, int method) {
+			Date requestTime, float amount, int method) {
 		
 		this.requestID = requestID;
 		this.userID = userID;
@@ -26,7 +28,7 @@ public class RechargeMessage implements Message{
 		try {
 			jsObject.put("requestID", this.requestID);
 			jsObject.put("userID", this.userID);
-			jsObject.put("requestTime", this.requestTime);
+			jsObject.put("requestTime", DateUtil.dateToString(this.requestTime, 0));
 			jsObject.put("amount", this.amount);
 			jsObject.put("method", this.method);
 		} catch (JSONException e) {

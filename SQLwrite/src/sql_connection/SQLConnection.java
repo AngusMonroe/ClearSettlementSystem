@@ -9,13 +9,21 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.json.JSONObject;
 
+import org.json.JSONArray;
+
+import exception.TimeOutOfRangeException;
 import request.RechargeRequest;
 import request.WithdrawRequest;
 import request.TradeRequest;
 
 import zzxPackage.Constant;
+import zzxPackage.DateUtil;
+import zzxPackage.JSONUtil;
+import zzxPackage.Message;
+import zzxPackage.RechargeMessage;
+import zzxPackage.TradeMessage;
+import zzxPackage.WithdrawMessage;
 import zzxPackage.ClearingMessage;
 
 /**
@@ -126,7 +134,7 @@ public class SQLConnection
 		String end = endTime.toString();
 		String sql = "SELECT merchantID, userID, amount "
 				+ "FROM trade "
-				+ "WHERE requestTime > " + start + " AND requestTime < " + end + " "; 
+				+ "WHERE requestTime > " + start + " AND requestTime < " + end + " "
 				+ "GROUP BY merchantID";
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
@@ -155,7 +163,88 @@ public class SQLConnection
 		return clearingMessages;
 	}
 	
-	public JSONObject findQueryRecord(Date startTime, Date endTime, int kind) {
-		if()
+	/**
+	 * 
+	 * @param startTime
+	 * @param endTime
+	 * @param kind: 0-充值, 1-提现, 2-消费
+	 * @return
+	 * @throws SQLException 
+	 */
+	public JSONArray findQueryRecord(Date startTime, Date endTime, int kind) throws SQLException {
+		
+		Date before15day = DateUtil.to15DayBefore(new Date());
+		if(!startTime.before(endTime) 
+				|| !startTime.after(before15day) 
+				|| !endTime.before(new Date())) {
+			throw new TimeOutOfRangeException();
+		}
+		
+		ArrayList<Message> messages;
+		if (kind == 0) {
+			String sql = "SELECT requestID, userID, requestTime, amount, method "
+					+ " FROM recharge "
+					+ " WHERE requestTime > " + startTime + " AND requestTime < " + endTime;
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			messages = new ArrayList<Message>();
+			
+			while (rs.next()) {
+				String requestID = rs.getString("requestID");
+				String userID = rs.getString("userID");
+				Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
+				float amount = rs.getFloat("amount");
+				int method = rs.getInt("method");
+				Message message = new RechargeMessage(
+						requestID, userID, requestTime, amount, method);
+				messages.add(message);
+			}
+			
+		} else if (kind == 1) {
+			String sql = "SELECT requestID, userID, requestTime, amount, method "
+					+ " FROM withdraw "
+					+ " WHERE requestTime > " + startTime + " AND requestTime < " + endTime;
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			messages = new ArrayList<Message>();
+			
+			while (rs.next()) {
+				String requestID = rs.getString("requestID");
+				String userID = rs.getString("userID");
+				Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
+				float amount = rs.getFloat("amount");
+				int method = rs.getInt("method");
+				Message message = new WithdrawMessage(
+						requestID, userID, requestTime, amount, method);
+				messages.add(message);
+			}
+			
+		} else if (kind == 2) {
+			String sql = "SELECT requestID, userID, mrechantID, requestTime, amount, operateStatus"
+					+ " FROM trade "
+					+ " WHERE requestTime > " + startTime + " AND requestTime < " + endTime;
+			Statement statement = connection.createStatement();
+			ResultSet rs = statement.executeQuery(sql);
+			messages = new ArrayList<Message>();
+			
+			while (rs.next()) {
+				String requestID = rs.getString("requestID");
+				String userID = rs.getString("userID");
+				String mrechantID = rs.getString("mrechantID");
+				Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
+				float amount = rs.getFloat("amount");
+				int operateStatus = rs.getInt("operateStatus");
+				Message message = new TradeMessage(
+						requestID, userID, mrechantID, requestTime, amount, operateStatus);
+				messages.add(message);
+			}
+			
+		} else {
+			throw new TimeOutOfRangeException();
+		}	
+		
+		JSONArray ans = JSONUtil.MessagesToArray(messages);
+		return ans;
 	}
+
 }
