@@ -127,7 +127,7 @@ public class SQLConnection
 	// ------- 已下是zzx的数据库函数操作，若报错全部注释掉就行 -----------//
 	
 	/**
-	 * 清分
+	 * 对当前时间前一天进行清分
 	 * @throws SQLException
 	 */
 	public void clearing() throws SQLException {

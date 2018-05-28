@@ -13,11 +13,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mysql.cj.util.DataTypeUtil;
+import exception.TimeOutOfRangeException;
 
 public class JSONUtil {
 
-	public static JSONArray getJSArrayFromFile(Date date) {
+	public static JSONArray getClearingFromFile(Date date) {
+		
+		// 检测时间范围
+		Date before15day = DateUtil.toDayBefore(new Date(), 15);
+		if (date.before(before15day)) {
+			throw new TimeOutOfRangeException();
+		}
+		
+		// 从文件读取字符串
 		String filename = DateUtil.dateToString(date, 1) + ".json";
         StringBuilder sBuilder = new StringBuilder();
         try{
@@ -25,15 +33,22 @@ public class JSONUtil {
             BufferedReader br = new BufferedReader(fileReader);
             String s = null;
             while((s = br.readLine())!=null){//使用readLine方法，一次读一行
-                result.append(System.lineSeparator()+s);
+            	sBuilder.append(System.lineSeparator()+s);
             }
             br.close();    
         }catch(Exception e){
             e.printStackTrace();
         }
         
+        // 转换
         String source = sBuilder.toString();
-        JSONArray jsArray = new JSONArray(source);
+        JSONArray jsArray = null;
+		try {
+			jsArray = new JSONArray(source);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsArray;
 	}
 	
 	/**
