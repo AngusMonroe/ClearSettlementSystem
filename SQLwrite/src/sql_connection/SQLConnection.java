@@ -7,6 +7,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
+
+import org.json.JSONObject;
 
 import request.RechargeRequest;
 import request.WithdrawRequest;
@@ -116,10 +119,14 @@ public class SQLConnection
 	// ------- 已下是zzx的数据库函数操作，若报错全部注释掉就行 -----------//
 	
 	// 返回merchantID,userID，amount，fee
-	public ArrayList<ClearingMessage> clearing() throws SQLException {
+	public ArrayList<ClearingMessage> clearing(
+			Date startTime, Date endTime) throws SQLException {
 		
+		String start = startTime.toString();
+		String end = endTime.toString();
 		String sql = "SELECT merchantID, userID, amount "
 				+ "FROM trade "
+				+ "WHERE requestTime > " + start + " AND requestTime < " + end + " "; 
 				+ "GROUP BY merchantID";
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
@@ -130,7 +137,6 @@ public class SQLConnection
 		while(rs.next()){
             // 通过字段检索
             int merchantID  = rs.getInt("merchantID");
-            // int userID = rs.getInt("userID");
             float amount = rs.getFloat("amount");
             
             // 添加信息
@@ -147,5 +153,9 @@ public class SQLConnection
 			clearingMessages.add(currClearingMessage);
 		}
 		return clearingMessages;
+	}
+	
+	public JSONObject findQueryRecord(Date startTime, Date endTime, int kind) {
+		if()
 	}
 }

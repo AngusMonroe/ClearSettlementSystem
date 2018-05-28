@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import sql_connection.SQLConnection;
 import zzxPackage.ClearingMessage;
-import zzxPackage.Util;;
+import zzxPackage.JSONUtil;;
 
 public class ZZXDemo {
 	public static void main(String[] args) {
@@ -15,7 +15,7 @@ public class ZZXDemo {
 					"record"
 					);
 			ArrayList<ClearingMessage> clearingMessages = sqlConnection.clearing();
-			Util.writeFile(clearingMessages);
+			JSONUtil.writeFile(clearingMessages);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

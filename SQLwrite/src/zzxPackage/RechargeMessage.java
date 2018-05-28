@@ -1,21 +1,37 @@
 package zzxPackage;
 
-public class RechargeMessage {
-	private int requestID;
-	private int userID;
-	private int requestTime;
-	private int amount;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class RechargeMessage implements Message{
+	private String requestID;
+	private String userID;
+	private String requestTime;
+	private float amount;
 	private int method;
-	private int requestStatus;
 	
-	public RechargeMessage(int requestID, int userID, int requestTime,
-			int amount, int method, int requestStatus) {
+	public RechargeMessage(String requestID, String userID, 
+			String requestTime, float amount, int method) {
 		
 		this.requestID = requestID;
 		this.userID = userID;
 		this.requestTime = requestTime;
 		this.amount = amount;
 		this.method = method;
-		this.requestStatus = requestStatus;
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsObject = new JSONObject();
+		try {
+			jsObject.put("requestID", this.requestID);
+			jsObject.put("userID", this.userID);
+			jsObject.put("requestTime", this.requestTime);
+			jsObject.put("amount", this.amount);
+			jsObject.put("method", this.method);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsObject;
 	}
 }

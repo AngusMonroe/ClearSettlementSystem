@@ -1,18 +1,18 @@
 package zzxPackage;
 
-import java.sql.Date;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class TradeMessage {
-	private int requestID;
-	private int userID;
-	private int merchantID;
-	private Date requestTime;
+public class TradeMessage implements Message{
+	private String requestID;
+	private String userID;
+	private String merchantID;
+	private String requestTime;
 	private float amount;
 	private int operateStatus;
-	private int requestStatus;
 	
-	public TradeMessage(int requestID, int userID, int merchantID, Date requestTime,
-			float amount, int operateStatus, int requestStatus) {
+	public TradeMessage(String requestID, String userID, String merchantID, 
+			String requestTime, float amount, int operateStatus) {
 		
 		this.requestID = requestID;
 		this.userID = userID;
@@ -20,6 +20,21 @@ public class TradeMessage {
 		this.requestTime = requestTime;
 		this.amount = amount;
 		this.operateStatus = operateStatus;
-		this.requestStatus = requestStatus;
+	}
+
+	@Override
+	public JSONObject toJSONObject() {
+		JSONObject jsObject = new JSONObject();
+		try {
+			jsObject.put("requestID", this.requestID);
+			jsObject.put("userID", this.userID);
+			jsObject.put("merchantID", this.merchantID);
+			jsObject.put("requestTime", this.requestTime);
+			jsObject.put("amount", this.amount);
+			jsObject.put("operateStatus", this.operateStatus);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsObject;
 	}
 }
