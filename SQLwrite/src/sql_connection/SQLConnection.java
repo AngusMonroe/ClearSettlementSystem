@@ -127,14 +127,15 @@ public class SQLConnection
 	// ------- 已下是zzx的数据库函数操作，若报错全部注释掉就行 -----------//
 	
 	// 返回merchantID,userID，amount，fee
-	public ArrayList<ClearingMessage> clearing(
-			Date startTime, Date endTime) throws SQLException {
+	public JSONArray clearing() throws SQLException {
 		
-		String start = startTime.toString();
-		String end = endTime.toString();
+		Date adayBefore = DateUtil.toDayBefore(new Date(), 1);
+		Date currDate = new Date();
+		String before = DateUtil.dateToString(adayBefore, 0);
+		String now = DateUtil.dateToString(currDate, 0);
 		String sql = "SELECT merchantID, userID, amount "
 				+ "FROM trade "
-				+ "WHERE requestTime > " + start + " AND requestTime < " + end + " "
+				+ "WHERE requestTime > " + before + " AND requestTime < " + now + " "
 				+ "GROUP BY merchantID";
 		Statement statement = connection.createStatement();
 		ResultSet rs = statement.executeQuery(sql);
@@ -160,7 +161,9 @@ public class SQLConnection
 		if (currClearingMessage.merchantID != notExist) {
 			clearingMessages.add(currClearingMessage);
 		}
-		return clearingMessages;
+		
+		JSONArray ans = JSONUtil.MessagesToArray(clearingMessages);
+		return ans;
 	}
 	
 	/**
@@ -173,7 +176,7 @@ public class SQLConnection
 	 */
 	public JSONArray findQueryRecord(Date startTime, Date endTime, int kind) throws SQLException {
 		
-		Date before15day = DateUtil.to15DayBefore(new Date());
+		Date before15day = DateUtil.toDayBefore(new Date(), 15);
 		if(!startTime.before(endTime) 
 				|| !startTime.after(before15day) 
 				|| !endTime.before(new Date())) {

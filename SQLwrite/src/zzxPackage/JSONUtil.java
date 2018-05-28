@@ -62,6 +62,18 @@ public class JSONUtil {
 	}
 	
 	public static void main(String[] args) throws JSONException {
+//		JSONObject jsObject = new JSONObject();
+//		jsObject.put("merchantID", 1);
+//		jsObject.put("amount", 2);
+//		jsObject.put("fee", 3);
+//		JSONObject jsObject2 = new JSONObject();
+//		jsObject2.put("merchantID", 4);
+//		jsObject2.put("amount", 5);
+//		jsObject2.put("fee", 6);
+//		JSONArray jsArray = new JSONArray();
+//		jsArray.put(0, jsObject);
+//		jsArray.put(1, jsObject2);
+//		System.out.println(jsArray.toString());
 		
 //		JSONObject jsObject = CMessageToObject(new ClearingMessage(1, 10, 1));
 //		JSONArray jsArray = new JSONArray();

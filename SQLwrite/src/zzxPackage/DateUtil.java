@@ -72,19 +72,19 @@ public class DateUtil {
 		return dateTimeformat.format(date);
 	}
 	
-	public static Date to15DayBefore(Date date) {
+	public static Date toDayBefore(Date date, int dayNumber) {
 //		final long ONE_MINUTE = 60000L;
 //	    final long ONE_HOUR = 3600000L;
 	    final long ONE_DAY = 86400000L;
 //	    final long ONE_WEEK = 604800000L;
-		Date ans = new Date(date.getTime() - 15 * ONE_DAY);
+		Date ans = new Date(date.getTime() - dayNumber * ONE_DAY);
 		return ans;
 	}
 	
 	public static void main(String[] args) {
 		//Date date = strToDate("2018-9-2 23:12:12");
 		Date date = strToDate("2018-9-2");
-		Date before = to15DayBefore(date);
+		Date before = toDayBefore(date, 15);
 		System.out.println(dateToString(before, 1));
 	}
 }
