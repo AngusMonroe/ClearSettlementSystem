@@ -29,13 +29,13 @@ public class ZZXDemo {
 			
 			sqlConnection.clearing();
 			
-			Date startTime = DateUtil.strToDate("2018-05-03");
-			Date endTime = DateUtil.strToDate("2018-05-05");
-			int kind = 0;
+			Date startTime = DateUtil.strToDate("2018-05-26");
+			Date endTime = DateUtil.strToDate("2018-05-28");
+			int kind = 1;
 			JSONArray jsonArray = sqlConnection.findQueryRecord(startTime, endTime, kind);
 			System.out.println(jsonArray.toString());
 			
-			Date date = null;
+			Date date  = DateUtil.strToDate("2018-05-29");
 			JSONArray clearingArray = JSONUtil.getClearingFromFile(date);
 			System.out.println(clearingArray.toString());
 			
