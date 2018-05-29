@@ -1,6 +1,6 @@
 package com.altale.service;
 import java.util.Date;
-public interface IUserService {
+public interface CSSystem {
     public int Recharge(int UserID,Date RequestTime,int RequestID,
                         float Money,boolean Way,boolean RequestState);
     public int Withdraw(int UserID,Date RequestTime,int RequestID,
