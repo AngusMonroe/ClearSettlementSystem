@@ -10,11 +10,11 @@ public class TradeMessage implements Message{
 	private String userID;
 	private String merchantID;
 	private Date requestTime;
-	private float amount;
+	private double amount;
 	private int operateStatus;
 	
 	public TradeMessage(String requestID, String userID, String merchantID, 
-			Date requestTime, float amount, int operateStatus) {
+			Date requestTime, double amount, int operateStatus) {
 		
 		this.requestID = requestID;
 		this.userID = userID;

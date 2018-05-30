@@ -160,12 +160,12 @@ public class SQLConnection
 		ResultSet rs = statement.executeQuery(sql);
 		
 		ArrayList<ClearingMessage> clearingMessages = new ArrayList<ClearingMessage>();
-		int notExist = -1;
+		String notExist = "";
 		ClearingMessage currClearingMessage = new ClearingMessage(notExist); // 不存在seller
 		while(rs.next()){
             // 通过字段检索
-            int merchantID  = rs.getInt("merchantID");
-            float amount = rs.getFloat("amount");
+            String merchantID  = rs.getString("merchantID");
+            double amount = rs.getDouble("amount");
             
             // 添加信息
             if (currClearingMessage.merchantID == notExist && currClearingMessage.merchantID != merchantID) {
@@ -215,7 +215,7 @@ public class SQLConnection
 				String requestID = rs.getString("requestID");
 				String userID = rs.getString("userID");
 				Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
-				float amount = rs.getFloat("amount");
+				double amount = rs.getDouble("amount");
 				int method = rs.getInt("method");
 				Message message = new RechargeMessage(
 						requestID, userID, requestTime, amount, method);
@@ -234,7 +234,7 @@ public class SQLConnection
 				String requestID = rs.getString("requestID");
 				String userID = rs.getString("userID");
 				Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
-				float amount = rs.getFloat("amount");
+				double amount = rs.getDouble("amount");
 				int method = rs.getInt("method");
 				Message message = new WithdrawMessage(
 						requestID, userID, requestTime, amount, method);
@@ -254,7 +254,7 @@ public class SQLConnection
 				String userID = rs.getString("userID");
 				String mrechantID = rs.getString("mrechantID");
 				Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
-				float amount = rs.getFloat("amount");
+				double amount = rs.getDouble("amount");
 				int operateStatus = rs.getInt("operateStatus");
 				Message message = new TradeMessage(
 						requestID, userID, mrechantID, requestTime, amount, operateStatus);

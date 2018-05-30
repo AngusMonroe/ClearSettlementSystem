@@ -9,11 +9,11 @@ public class RechargeMessage implements Message{
 	private String requestID;
 	private String userID;
 	private Date requestTime;
-	private float amount;
+	private double amount;
 	private int method;
 	
 	public RechargeMessage(String requestID, String userID, 
-			Date requestTime, float amount, int method) {
+			Date requestTime, double amount, int method) {
 		
 		this.requestID = requestID;
 		this.userID = userID;
