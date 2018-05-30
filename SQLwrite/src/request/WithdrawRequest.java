@@ -16,7 +16,7 @@ public final class WithdrawRequest extends Request
 	 * @param timestamp «Î«Û ±º‰
 	 * @throws RequestException 
 	 */
-	public WithdrawRequest(String requestID, String userID, float amount, boolean method, String requestTime) throws RequestException
+	public WithdrawRequest(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException
 	{
 		super(requestID, userID, "0", amount, false, method, requestTime);
 	}

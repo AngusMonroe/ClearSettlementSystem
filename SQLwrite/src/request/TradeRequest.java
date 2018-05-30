@@ -17,7 +17,7 @@ public final class TradeRequest extends Request
 	 * @param requestTime «Î«Û ±º‰
 	 * @throws RequestException
 	 */
-	public TradeRequest(String requestID, String userID, String merchantID, float amount, boolean operateStatus, String requestTime) throws RequestException
+	public TradeRequest(String requestID, String userID, String merchantID, double amount, boolean operateStatus, String requestTime) throws RequestException
 	{
 		super(requestID, userID, merchantID, amount, operateStatus, false, requestTime);
 	}

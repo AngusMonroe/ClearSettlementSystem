@@ -10,7 +10,7 @@ public class Request
 	protected String requestID;
 	protected String userID;
 	protected String merchantID;
-	protected float amount;
+	protected double amount;
 	protected boolean operateStatus;
 	protected boolean method;
 	protected String requestTime;
@@ -27,7 +27,7 @@ public class Request
 	 * @param requestTime 请求时间
 	 * @throws RequestException
 	 */
-	protected Request(String requestID, String userID, String merchantID, float amount, boolean operateStatus, boolean method, String requestTime) throws RequestException
+	protected Request(String requestID, String userID, String merchantID, double amount, boolean operateStatus, boolean method, String requestTime) throws RequestException
 	{
 		this.requestID = requestID;
 		this.userID = userID;
@@ -69,7 +69,7 @@ public class Request
 	 * 返回金额
 	 * @return amount
 	 */
-	public float getAmount()
+	public double getAmount()
 	{
 		return amount;
 	}

@@ -16,7 +16,7 @@ public final class RechargeRequest extends Request
 	 * @param requestTime «Î«Û ±º‰
 	 * @throws RequestException
 	 */
-	public RechargeRequest(String requestID, String userID, float amount, boolean method, String requestTime) throws RequestException
+	public RechargeRequest(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException
 	{
 		super(requestID, userID, "0", amount, false, method, requestTime);
 	}
