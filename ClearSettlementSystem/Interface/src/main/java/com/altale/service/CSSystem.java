@@ -50,12 +50,10 @@ public interface CSSystem {
     public String QueryRecord(String startTime,String endTime,int operatorID) throws TimeOutOfRangeException,OperatorIdOutOfRangeException;
 
     /**
-     * 下载对账文件，要求15天内
-     * @param startTime 起始时间 "YY-MM-DD HH:MM:SS"
-     * @param endTime 终止时间 "YY-MM-DD HH:MM:SS"
+     * 下载某一天的对账文件，要求15天内
+     * @param requestTime 对账文件的时间 "YY-MM-DD"
      * @return JSON格式对账数据字符串
      * @throws TimeOutOfRangeException 函数调用时间超出范围
-     * @throws OperatorIdOutOfRangeException 操作类型有误
      */
-    public String DownloadFile(String startTime,String endTime) throws TimeOutOfRangeException,OperatorIdOutOfRangeException;
+    public String DownloadFile(String requestTime) throws TimeOutOfRangeException;
 }

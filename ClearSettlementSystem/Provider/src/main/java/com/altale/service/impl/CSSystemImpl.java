@@ -49,7 +49,6 @@ public class CSSystemImpl implements CSSystem{
     private SQLConnection sqlConnection;
     @Override
     public String Recharge(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException {
-        String ret="-1";
         try{
             sqlConnection= new SQLConnection
                     (
@@ -60,59 +59,16 @@ public class CSSystemImpl implements CSSystem{
                         username,
                         password
                     );
-            RechargeRequest rechargeRequest = new RechargeRequest(requestID,userID,amount,method,requestTime);
-            ret=sqlConnection.sendRequest(rechargeRequest);
-            return ret;
         }catch (Exception ex){
-            throw new RequestException("清结算系统无法连接到数据库");
+            ex.printStackTrace();
+            return "-1";
         }
+        RechargeRequest rechargeRequest = new RechargeRequest(requestID,userID,amount,method,requestTime);
+        return sqlConnection.sendRequest(rechargeRequest);
     }
 
     @Override
     public String Withdraw(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException {
-        String ret="-1";
-        try{
-            sqlConnection= new SQLConnection
-                    (
-                            "jdbc:mysql://" +
-                                    server +  ":" +
-                                    port + "/" +
-                                    database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
-                            username,
-                            password
-                    );
-            WithdrawRequest withdrawRequest=new WithdrawRequest(requestID,userID,amount,method,requestTime);
-            ret=sqlConnection.sendRequest(withdrawRequest);
-            return ret;
-        }catch (Exception ex){
-            throw new RequestException("清结算系统无法连接到数据库");
-        }
-    }
-
-    @Override
-    public String Trade(String requestID, String userID, String merchantID, double amount, String requestTime) throws RequestException {
-        String ret="-1";
-        try{
-            sqlConnection= new SQLConnection
-                    (
-                            "jdbc:mysql://" +
-                                    server +  ":" +
-                                    port + "/" +
-                                    database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
-                            username,
-                            password
-                    );
-            TradeRequest tradeRequest=new TradeRequest(requestID,userID,merchantID,amount,false,requestTime);
-            ret=sqlConnection.sendRequest(tradeRequest);
-            return ret;
-        }catch (Exception ex){
-            throw new RequestException("清结算系统无法连接到数据库");
-        }
-    }
-
-    @Override
-    public String QueryRecord(String startTime, String endTime, int operatorID) throws TimeOutOfRangeException, OperatorIdOutOfRangeException {
-        String ret="";
         try{
             sqlConnection= new SQLConnection
                     (
@@ -123,15 +79,55 @@ public class CSSystemImpl implements CSSystem{
                         username,
                         password
                     );
-            return sqlConnection.findQueryRecord(DateUtil.strToDate(startTime),DateUtil.strToDate(endTime),operatorID).toString();
         }catch (Exception ex){
             ex.printStackTrace();
+            return "-1";
         }
-        return ret;
+        WithdrawRequest withdrawRequest=new WithdrawRequest(requestID,userID,amount,method,requestTime);
+        return sqlConnection.sendRequest(withdrawRequest);
     }
 
     @Override
-    public String DownloadFile(String startTime, String endTime) throws TimeOutOfRangeException, OperatorIdOutOfRangeException {
-        return JSONUtil.getClearingFromFile(DateUtil.strToDate(startTime)).toString();
+    public String Trade(String requestID, String userID, String merchantID, double amount, String requestTime) throws RequestException {
+        try{
+            sqlConnection= new SQLConnection
+                    (
+                        "jdbc:mysql://" +
+                                server +  ":" +
+                                port + "/" +
+                                database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
+                        username,
+                        password
+                    );
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return "-1";
+        }
+        TradeRequest tradeRequest=new TradeRequest(requestID,userID,merchantID,amount,false,requestTime);
+        return sqlConnection.sendRequest(tradeRequest);
+    }
+
+    @Override
+    public String QueryRecord(String startTime, String endTime, int operatorID) throws TimeOutOfRangeException, OperatorIdOutOfRangeException {
+        try{
+            sqlConnection= new SQLConnection
+                    (
+                        "jdbc:mysql://" +
+                                server +  ":" +
+                                port + "/" +
+                                database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
+                        username,
+                        password
+                    );
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return "";
+        }
+        return sqlConnection.findQueryRecord(DateUtil.strToDate(startTime),DateUtil.strToDate(endTime),operatorID).toString();
+    }
+
+    @Override
+    public String DownloadFile(String requestTime) throws TimeOutOfRangeException {
+        return JSONUtil.getClearingFromFile(DateUtil.strToDate(requestTime)).toString();
     }
 }
