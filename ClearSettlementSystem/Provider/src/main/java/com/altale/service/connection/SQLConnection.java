@@ -128,46 +128,49 @@ public class SQLConnection
      * @return 获取那一天的清分内容
      * @throws SQLException
      */
-    private JSONArray getClearing(Date date) throws SQLException {
+    private JSONArray getClearing(Date date) {
 
         Date before15day = DateUtil.toDayBefore(new Date(), 15);
         if (date.before(before15day)) {
             throw new TimeOutOfRangeException();
         }
 
-        Date start = DateUtil.toDayBefore(date, 1);
-        Date end = date;
-        String startTime = DateUtil.dateToString(start, 0);
-        String endTime = DateUtil.dateToString(end, 0);
-        String sql = "SELECT merchantID, userID, amount "
-                + "FROM trade "
-                + "WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "' "
-                + "GROUP BY merchantID";
-        Statement statement = connection.createStatement();
-        ResultSet rs = statement.executeQuery(sql);
-
         ArrayList<ClearingMessage> clearingMessages = new ArrayList<ClearingMessage>();
-        String notExist = "";
-        ClearingMessage currClearingMessage = new ClearingMessage(notExist); // 不存在seller
-        while(rs.next()){
-            // 通过字段检索
-            String merchantID  = rs.getString("merchantID");
-            double amount = rs.getDouble("amount");
+        try{
+            Date start = DateUtil.toDayBefore(date, 1);
+            Date end = date;
+            String startTime = DateUtil.dateToString(start, 0);
+            String endTime = DateUtil.dateToString(end, 0);
+            String sql = "SELECT merchantID, userID, amount "
+                    + "FROM trade "
+                    + "WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "' "
+                    + "GROUP BY merchantID";
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
 
-            // 添加信息
-            if (currClearingMessage.merchantID == notExist && currClearingMessage.merchantID != merchantID) {
-                currClearingMessage = new ClearingMessage(merchantID);
-            } else if(currClearingMessage.merchantID != notExist && currClearingMessage.merchantID != merchantID) {
-                clearingMessages.add(currClearingMessage);
-                currClearingMessage = new ClearingMessage(merchantID);
+            String notExist = "";
+            ClearingMessage currClearingMessage = new ClearingMessage(notExist); // 不存在seller
+            while(rs.next()){
+                // 通过字段检索
+                String merchantID  = rs.getString("merchantID");
+                double amount = rs.getDouble("amount");
+
+                // 添加信息
+                if (currClearingMessage.merchantID == notExist && currClearingMessage.merchantID != merchantID) {
+                    currClearingMessage = new ClearingMessage(merchantID);
+                } else if(currClearingMessage.merchantID != notExist && currClearingMessage.merchantID != merchantID) {
+                    clearingMessages.add(currClearingMessage);
+                    currClearingMessage = new ClearingMessage(merchantID);
+                }
+                currClearingMessage.amount += amount * (1 - Constant.texRatio);
+                currClearingMessage.fee += amount * Constant.texRatio;
             }
-            currClearingMessage.amount += amount * (1 - Constant.texRatio);
-            currClearingMessage.fee += amount * Constant.texRatio;
+            if (currClearingMessage.merchantID != notExist) {
+                clearingMessages.add(currClearingMessage);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        if (currClearingMessage.merchantID != notExist) {
-            clearingMessages.add(currClearingMessage);
-        }
-
         JSONArray ans = JSONUtil.MessagesToArray(clearingMessages);
         return ans;
     }
@@ -180,7 +183,7 @@ public class SQLConnection
      * @return
      * @throws SQLException
      */
-    public JSONArray findQueryRecord(Date startTime, Date endTime, int kind) throws SQLException {
+    public JSONArray findQueryRecord(Date startTime, Date endTime, int kind) {
 
         Date before15day = DateUtil.toDayBefore(new Date(), 15);
         if(!startTime.before(endTime)
@@ -189,71 +192,75 @@ public class SQLConnection
             throw new TimeOutOfRangeException();
         }
 
-        ArrayList<Message> messages;
-        if (kind == 0) {
-            String sql = "SELECT requestID, userID, requestTime, amount, method "
-                    + " FROM recharge "
-                    + " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            messages = new ArrayList<Message>();
+        ArrayList<Message> messages = null;
+        try{
+            if (kind == 0) {
+                String sql = "SELECT requestID, userID, requestTime, amount, method "
+                        + " FROM recharge "
+                        + " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(sql);
+                messages = new ArrayList<Message>();
 
-            while (rs.next()) {
-                String requestID = rs.getString("requestID");
-                String userID = rs.getString("userID");
-                Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
-                double amount = rs.getDouble("amount");
-                int method = rs.getInt("method");
-                Message message = new RechargeMessage(
-                        requestID, userID, requestTime, amount, method);
-                messages.add(message);
+                while (rs.next()) {
+                    String requestID = rs.getString("requestID");
+                    String userID = rs.getString("userID");
+                    Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
+                    double amount = rs.getDouble("amount");
+                    int method = rs.getInt("method");
+                    Message message = new RechargeMessage(
+                            requestID, userID, requestTime, amount, method);
+                    messages.add(message);
+                }
+
+            } else if (kind == 1) {
+                String sql = "SELECT requestID, userID, requestTime, amount, method "
+                        + " FROM withdraw "
+                        + " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(sql);
+                messages = new ArrayList<Message>();
+
+                while (rs.next()) {
+                    String requestID = rs.getString("requestID");
+                    String userID = rs.getString("userID");
+                    Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
+                    double amount = rs.getDouble("amount");
+                    int method = rs.getInt("method");
+                    Message message = new WithdrawMessage(
+                            requestID, userID, requestTime, amount, method);
+                    messages.add(message);
+                }
+
+            } else if (kind == 2) {
+                String sql = "SELECT requestID, userID, mrechantID, requestTime, amount, operateStatus"
+                        + " FROM trade "
+                        + " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
+                Statement statement = connection.createStatement();
+                ResultSet rs = statement.executeQuery(sql);
+                messages = new ArrayList<Message>();
+
+                while (rs.next()) {
+                    String requestID = rs.getString("requestID");
+                    String userID = rs.getString("userID");
+                    String mrechantID = rs.getString("mrechantID");
+                    Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
+                    double amount = rs.getDouble("amount");
+                    int operateStatus = rs.getInt("operateStatus");
+                    Message message = new TradeMessage(
+                            requestID, userID, mrechantID, requestTime, amount, operateStatus);
+                    messages.add(message);
+                }
+
+            } else {
+                throw new TimeOutOfRangeException();
             }
-
-        } else if (kind == 1) {
-            String sql = "SELECT requestID, userID, requestTime, amount, method "
-                    + " FROM withdraw "
-                    + " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            messages = new ArrayList<Message>();
-
-            while (rs.next()) {
-                String requestID = rs.getString("requestID");
-                String userID = rs.getString("userID");
-                Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
-                double amount = rs.getDouble("amount");
-                int method = rs.getInt("method");
-                Message message = new WithdrawMessage(
-                        requestID, userID, requestTime, amount, method);
-                messages.add(message);
-            }
-
-        } else if (kind == 2) {
-            String sql = "SELECT requestID, userID, mrechantID, requestTime, amount, operateStatus"
-                    + " FROM trade "
-                    + " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            messages = new ArrayList<Message>();
-
-            while (rs.next()) {
-                String requestID = rs.getString("requestID");
-                String userID = rs.getString("userID");
-                String mrechantID = rs.getString("mrechantID");
-                Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
-                double amount = rs.getDouble("amount");
-                int operateStatus = rs.getInt("operateStatus");
-                Message message = new TradeMessage(
-                        requestID, userID, mrechantID, requestTime, amount, operateStatus);
-                messages.add(message);
-            }
-
-        } else {
-            throw new TimeOutOfRangeException();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         JSONArray ans = JSONUtil.MessagesToArray(messages);
         return ans;
     }
 
 }
+

@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Clearing" />
         <module name="Interface" />
+        <module name="LocalDubboTest" />
         <module name="Provider" />
       </profile>
     </annotationProcessing>
@@ -16,6 +17,7 @@
       <module name="ClearSettlementSystem" target="1.7" />
       <module name="Consumer" target="1.7" />
       <module name="Interface" target="1.7" />
+      <module name="LocalDubboTest" target="1.7" />
       <module name="Provider" target="1.7" />
     </bytecodeTargetLevel>
   </component>

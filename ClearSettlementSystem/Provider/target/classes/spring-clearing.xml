@@ -1,0 +1,12 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <bean id="clearing" class="com.altale.service.clearing.ClearingThread"/>
+    <task:scheduler id="qbScheduler" pool-size="10"/>
+    <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
+    <!--简单来说，我们只需要<task:annotation-driven/>这一句即可，这些参数不是必须的 -->
+</beans>

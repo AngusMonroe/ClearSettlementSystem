@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ClearSettlementSystem.iml" filepath="$PROJECT_DIR$/ClearSettlementSystem.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Clearing/Clearing.iml" filepath="$PROJECT_DIR$/Clearing/Clearing.iml" />
       <module fileurl="file://$PROJECT_DIR$/Interface/Interface.iml" filepath="$PROJECT_DIR$/Interface/Interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LocalDubboTest/LocalDubboTest.iml" filepath="$PROJECT_DIR$/LocalDubboTest/LocalDubboTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/Provider/Provider.iml" filepath="$PROJECT_DIR$/Provider/Provider.iml" />
     </modules>
   </component>
