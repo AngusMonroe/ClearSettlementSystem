@@ -148,18 +148,19 @@ public class SQLConnection
 			throw new TimeOutOfRangeException();
 		}
 		
+		// 获取清分列表
 		ArrayList<ClearingMessage> clearingMessages = new ArrayList<ClearingMessage>();
 		try{
 			Date start = DateUtil.toDayBefore(date, 1);
 			Date end = date;
 			String startTime = DateUtil.dateToString(start, 0);
 			String endTime = DateUtil.dateToString(end, 0);
-			String sql = "SELECT merchantID, userID, amount "
+			String selectSQL = "SELECT merchantID, userID, amount "
 					+ "FROM trade "
 					+ "WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "' "
 					+ "GROUP BY merchantID";
-			Statement statement = connection.createStatement();
-			ResultSet rs = statement.executeQuery(sql);
+			Statement statement1 = connection.createStatement();
+			ResultSet rs = statement1.executeQuery(selectSQL);
 			
 			String notExist = "";
 			ClearingMessage currClearingMessage = new ClearingMessage(notExist); // 不存在seller
@@ -181,13 +182,33 @@ public class SQLConnection
 			if (currClearingMessage.merchantID != notExist) {
 				clearingMessages.add(currClearingMessage);
 			}
+			
+			// 进行清分转账
+			for(ClearingMessage message : clearingMessages) {
+				String merchantID = message.merchantID; // 转给的商户
+				double amount = message.amount; //商家得到的
+				double fee = message.fee; // 手续费
+//				int	pay_user_id	付款方用户ID	无
+//				int	get_user_id	收款方用户ID	无
+//				double	amount	转账额	无
+//				boolean	trade_type	交易类型	false转账，true消费
+//				TODO: transferConsumer(pay_user_id是平台id是固定值，get_user_id是merchantID，
+//					amount是amount，trade_type：false)
+			}
+	
+			// 更新数据库清分状态
+			String updateSQL = "UPDATE trade "
+					+ "SET operateStatus = 1 "
+					+ "WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "' ";
+			Statement statement2 = connection.createStatement();
+			statement2.executeUpdate(updateSQL);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		JSONArray ans = JSONUtil.MessagesToArray(clearingMessages);
 		return ans;
 	}
-	
+
 	/**
 	 * 
 	 * @param startTime
