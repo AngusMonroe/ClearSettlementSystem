@@ -1,4 +1,4 @@
-package sql_connection;
+package com.altale.service.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,20 +12,9 @@ import java.util.Date;
 
 import org.json.JSONArray;
 
-import exception.TimeOutOfRangeException;
-import request.RechargeRequest;
-import request.WithdrawRequest;
-import request.TradeRequest;
-
-import zzxPackage.Constant;
-import zzxPackage.DateUtil;
-import zzxPackage.JSONUtil;
-import zzxPackage.Message;
-import zzxPackage.RechargeMessage;
-import zzxPackage.TradeMessage;
-import zzxPackage.WithdrawMessage;
-import zzxPackage.ClearingMessage;
-
+import com.altale.service.CSException.*;
+import com.altale.util.*;
+import com.altale.service.request.*;
 /**
  * 数据库连接类
  */
