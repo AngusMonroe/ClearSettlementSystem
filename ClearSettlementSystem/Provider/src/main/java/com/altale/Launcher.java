@@ -31,6 +31,8 @@ public class Launcher {
 
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         AccountService accountService = (AccountService)ctx.getBean("accountService");
+        accountService.transferConsume(3,4,0,false);
+        /*
         accountService.CSSystemReady();
 
 
@@ -43,7 +45,7 @@ public class Launcher {
                 logger.info("清结算系统结束运行");
             }
         }));
-
+        */
         try{
             System.in.read();
         } catch (Exception e) {
