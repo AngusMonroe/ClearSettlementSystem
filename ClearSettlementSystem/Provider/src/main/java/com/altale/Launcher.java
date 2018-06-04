@@ -1,9 +1,14 @@
 package com.altale;
 
+import buaa.jj.accountservice.api.*;
+import buaa.jj.accountservice.exceptions.*;
+import com.altale.service.CSSystem;
 import com.altale.util.BeanFactoryUtil;
 import com.altale.util.SystemDetails;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class Launcher {
 
@@ -22,6 +27,22 @@ public class Launcher {
         // 初始化spring
         logger.info("开始初始化core服务");
         BeanFactoryUtil.init();
+
+
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        AccountService accountService = (AccountService)ctx.getBean("accountService");
+        accountService.CSSystemReady();
+
+
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ApplicationContext endctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+                AccountService accountService = (AccountService)endctx.getBean("accountService");
+                accountService.CSSystemClosing();
+                logger.info("清结算系统结束运行");
+            }
+        }));
 
         try{
             System.in.read();
