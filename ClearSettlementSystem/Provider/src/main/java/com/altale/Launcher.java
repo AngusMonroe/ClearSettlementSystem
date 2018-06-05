@@ -3,6 +3,7 @@ package com.altale;
 import buaa.jj.accountservice.api.*;
 import buaa.jj.accountservice.exceptions.*;
 import com.altale.service.CSSystem;
+import com.altale.service.connection.SQLConnection;
 import com.altale.util.BeanFactoryUtil;
 import com.altale.util.SystemDetails;
 import org.apache.commons.logging.Log;
@@ -28,11 +29,11 @@ public class Launcher {
         logger.info("开始初始化core服务");
         BeanFactoryUtil.init();
 
-
+        /*
         ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         AccountService accountService = (AccountService)ctx.getBean("accountService");
         accountService.transferConsume(3,4,0,false);
-        /*
+
         accountService.CSSystemReady();
 
 
@@ -46,6 +47,27 @@ public class Launcher {
             }
         }));
         */
+        String server = "localhost";
+        String port = "3306";
+        String database = "css";
+        String username = "ruangong";
+        String password = "ruangong";
+        try {
+            SQLConnection sqlConnection = new SQLConnection
+                    (
+                            "jdbc:mysql://" +
+                                    server + ":" +
+                                    port + "/" +
+                                    database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
+                            username,
+                            password
+                    );
+            logger.info("数据库已连接");
+           // sqlConnection.clearing();
+        }catch (Exception ex){
+            logger.info("数据库连接失败");
+            ex.printStackTrace();
+        }
         try{
             System.in.read();
         } catch (Exception e) {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>Clear-Settlement-System</artifactId>
@@ -123,13 +124,13 @@
         </dependency>
         <!-- **************************** /Dubbo 依赖 **************************** -->
 
-        <!-- **************************** interface 依赖 **************************** -->
+        <!-- **************************** interface 依赖 ****************************
         <dependency>
             <groupId>com.altale</groupId>
             <artifactId>Interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!-- **************************** /interface 依赖 **************************** -->
+         **************************** /interface 依赖 **************************** -->
 
         <!-- **************************** json依赖 **************************** -->
         <dependency>
@@ -153,10 +154,5 @@
                                       -Dversion="1.0"
                                       -Dfile="F:\SE\ClearSettlementSystem\ClearSettlementSystem\accountService.jar"
                                       -Dpackaging="jar"-->
-        <dependency>
-            <groupId>buaa.jj</groupId>
-            <artifactId>accountService</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
 </project>

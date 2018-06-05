@@ -64,6 +64,7 @@ public class CSSystemImpl implements CSSystem{
             return "-1";
         }
         RechargeRequest rechargeRequest = new RechargeRequest(requestID,userID,amount,method,requestTime);
+        logger.info("Recharge " +requestID+" "+userID);
         return sqlConnection.sendRequest(rechargeRequest);
     }
 
@@ -84,6 +85,7 @@ public class CSSystemImpl implements CSSystem{
             return "-1";
         }
         WithdrawRequest withdrawRequest=new WithdrawRequest(requestID,userID,amount,method,requestTime);
+        logger.info("Withdraw " +requestID+" "+userID);
         return sqlConnection.sendRequest(withdrawRequest);
     }
 
@@ -104,6 +106,7 @@ public class CSSystemImpl implements CSSystem{
             return "-1";
         }
         TradeRequest tradeRequest=new TradeRequest(requestID,userID,merchantID,amount,false,requestTime);
+        logger.info("Trade " +requestID+" "+userID);
         return sqlConnection.sendRequest(tradeRequest);
     }
 
