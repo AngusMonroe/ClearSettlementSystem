@@ -2,6 +2,7 @@ package com.altale.service.connection;
 
 public class CSSdbinfo {
     /**
+     * 数据库连接信息
      * 服务器: localhost
      * 端口号: 3306
      * 账户: ruangong

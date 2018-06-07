@@ -15,7 +15,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Launcher {
 
     private static Log logger = LogFactory.getLog(Launcher.class);
-
+    private static ApplicationContext ctx;
+    public static AccountService accountService;
+    public static SQLConnection sqlConnection;
     /**
      * @param args
      */
@@ -30,21 +32,21 @@ public class Launcher {
         logger.info("开始初始化core服务");
         BeanFactoryUtil.init();
 
-        /*
+        ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        accountService=(AccountService)ctx.getBean("accountService");
         accountService.CSSystemReady();
+        logger.info("清结算系统启动");
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
-                ApplicationContext endctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-                AccountService accountService = (AccountService)endctx.getBean("accountService");
                 accountService.CSSystemClosing();
                 logger.info("清结算系统结束运行");
             }
         }));
-        */
+
         try {
-            SQLConnection sqlConnection= new SQLConnection
+            sqlConnection= new SQLConnection
                     (
                             "jdbc:mysql://" +
                                     CSSdbinfo.server +  ":" +
@@ -56,6 +58,7 @@ public class Launcher {
             logger.info("数据库已连接");
         }catch (Exception ex){
             logger.info("数据库连接失败");
+            sqlConnection=null;
             ex.printStackTrace();
         }
 

@@ -12,11 +12,6 @@ public class ClearingThread {
     //@Scheduled(cron = "0/5 * * * * ?") //<-从0秒开始每5秒执行一次
     @Scheduled(cron = "0 0 23 * * ?") //<-每天23点的cron表达式大概是这样
     public void Clearing(){
-        /*
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-        System.out.println(df.format(new Date())+"：完成清分");// new Date()为获取当前系统时间
-        */
-
         try {
             SQLConnection sqlConnection= new SQLConnection
                     (

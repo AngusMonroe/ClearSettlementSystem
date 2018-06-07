@@ -15,7 +15,7 @@
     <dubbo:registry id="jj" address="zookeeper://140.143.4.171:2181"/>
     <!-- 用dubbo协议在20880端口暴露服务 -->
 
-    <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
     <!-- 声明需要暴露的服务接口 -->
     <bean id="csSystem" class="com.altale.service.impl.CSSystemImpl" />
     <dubbo:service registry="jj" timeout="3000" interface="com.altale.service.CSSystem" ref="csSystem"/>

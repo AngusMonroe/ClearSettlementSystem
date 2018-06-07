@@ -11,6 +11,7 @@ import java.util.Date;
 
 
 import buaa.jj.accountservice.api.AccountService;
+import com.altale.Launcher;
 import org.json.JSONArray;
 
 import com.altale.service.CSException.*;
@@ -185,16 +186,11 @@ public class SQLConnection
 //				int	get_user_id	收款方用户ID	无
 //				double	amount	转账额	无
 //				boolean	trade_type	交易类型	false转账，true消费
-//				TODO: transferConsumer(pay_user_id是平台id是固定值，get_user_id是merchantID，
-//					amount是amount，trade_type：false)
-                    //待清算账户2转账给平台账户1
-				ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
-				AccountService accountService = (AccountService) ctx.getBean("accountService");
-				accountService.transferConsume(2, 1, fee, false);
+
+				//待清算账户2转账给平台账户1
+				Launcher.accountService.transferConsume(2, 1, fee, false);
 				//待清算账户2转账给商户
-				ctx=new ClassPathXmlApplicationContext("applicationContext.xml");
-				accountService = (AccountService) ctx.getBean("accountService");
-				accountService.transferConsume(2, Integer.valueOf(merchantID), amount, false);
+				Launcher.accountService.transferConsume(2, Integer.valueOf(merchantID), amount, false);
 			}
 	
 			// 更新数据库清分状态
