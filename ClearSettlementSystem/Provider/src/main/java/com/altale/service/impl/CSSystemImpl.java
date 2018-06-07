@@ -4,7 +4,7 @@ import com.altale.service.CSException.*;
 import com.altale.service.CSSystem;
 import com.altale.util.*;
 import com.altale.service.request.*;
-import com.altale.service.connection.SQLConnection;
+import com.altale.service.connection.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,46 +18,23 @@ import java.util.Date;
 public class CSSystemImpl implements CSSystem{
     private Logger logger = LoggerFactory.getLogger(CSSystemImpl.class);
     /*
-    @Override
-    public boolean login(String username, String password) {
         logger.info("用户登录：[username:{}, password:{}]", username, password);
-        if (username != null && password != null && username.equals(password)) {
-            logger.info("用户校验通过。[username:{}]", username);
-            return true;
-        }
-        logger.info("用户校验失败！[username:{}]", username);
-        return false;
-    }
     */
-
-    /**
-     * 创建数据库连接
-     * 服务器: localhost
-     * 端口号: 3306
-     * 账户: ruangong
-     * 密码: ruangong
-     * 数据库名: css
-     * 充值请求表: recharge
-     * 提现请求表: withdraw
-     * 交易请求表: trade
-     */
-    private String server = "localhost";
-    private String port = "3306";
-    private String database = "css";
-    private String username = "ruangong";
-    private String password = "ruangong";
     private SQLConnection sqlConnection;
     @Override
     public String Recharge(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException {
+        if(!CheckInputUtil.checkInput(requestID,userID,amount)){
+            throw new RequestException("充值参数错误");
+        }
         try{
             sqlConnection= new SQLConnection
                     (
                         "jdbc:mysql://" +
-                                server +  ":" +
-                                port + "/" +
-                                database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
-                        username,
-                        password
+                                CSSdbinfo.server +  ":" +
+                                CSSdbinfo.port + "/" +
+                                CSSdbinfo.database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
+                                CSSdbinfo.username,
+                                CSSdbinfo.password
                     );
         }catch (Exception ex){
             ex.printStackTrace();
@@ -70,15 +47,18 @@ public class CSSystemImpl implements CSSystem{
 
     @Override
     public String Withdraw(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException {
+        if(!CheckInputUtil.checkInput(requestID,userID,amount)) {
+            throw new RequestException("提现参数错误");
+        }
         try{
             sqlConnection= new SQLConnection
                     (
-                        "jdbc:mysql://" +
-                                server +  ":" +
-                                port + "/" +
-                                database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
-                        username,
-                        password
+                            "jdbc:mysql://" +
+                                    CSSdbinfo.server +  ":" +
+                                    CSSdbinfo.port + "/" +
+                                    CSSdbinfo.database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
+                            CSSdbinfo.username,
+                            CSSdbinfo.password
                     );
         }catch (Exception ex){
             ex.printStackTrace();
@@ -91,15 +71,18 @@ public class CSSystemImpl implements CSSystem{
 
     @Override
     public String Trade(String requestID, String userID, String merchantID, double amount, String requestTime) throws RequestException {
+        if(!CheckInputUtil.checkInput(requestID,userID,merchantID,amount)) {
+            throw new RequestException("转账参数错误");
+        }
         try{
             sqlConnection= new SQLConnection
                     (
-                        "jdbc:mysql://" +
-                                server +  ":" +
-                                port + "/" +
-                                database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
-                        username,
-                        password
+                            "jdbc:mysql://" +
+                                    CSSdbinfo.server +  ":" +
+                                    CSSdbinfo.port + "/" +
+                                    CSSdbinfo.database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
+                            CSSdbinfo.username,
+                            CSSdbinfo.password
                     );
         }catch (Exception ex){
             ex.printStackTrace();
@@ -115,12 +98,12 @@ public class CSSystemImpl implements CSSystem{
         try{
             sqlConnection= new SQLConnection
                     (
-                        "jdbc:mysql://" +
-                                server +  ":" +
-                                port + "/" +
-                                database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
-                        username,
-                        password
+                            "jdbc:mysql://" +
+                                    CSSdbinfo.server +  ":" +
+                                    CSSdbinfo.port + "/" +
+                                    CSSdbinfo.database + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
+                            CSSdbinfo.username,
+                            CSSdbinfo.password
                     );
         }catch (Exception ex){
             ex.printStackTrace();
