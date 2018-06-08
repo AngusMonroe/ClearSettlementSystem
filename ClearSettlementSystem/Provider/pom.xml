@@ -147,12 +147,5 @@
             <version>8.0.11</version>
         </dependency>
         <!-- **************************** /mysql 依赖 **************************** -->
-
-        <!-- 这是一个本地接口jar，配置方法：
-             mvn install:install-file -DgroupId="buaa.jj"
-                                      -DartifactId="accountService"
-                                      -Dversion="1.0"
-                                      -Dfile="F:\SE\ClearSettlementSystem\ClearSettlementSystem\accountService.jar"
-                                      -Dpackaging="jar"-->
     </dependencies>
 </project>

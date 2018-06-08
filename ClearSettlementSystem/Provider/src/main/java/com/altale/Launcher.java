@@ -34,6 +34,7 @@ public class Launcher {
 
         ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
         accountService=(AccountService)ctx.getBean("accountService");
+
         accountService.CSSystemReady();
         logger.info("清结算系统启动");
 
