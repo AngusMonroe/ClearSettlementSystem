@@ -3,6 +3,7 @@ package com.altale;
 import buaa.jj.accountservice.api.*;
 import buaa.jj.accountservice.exceptions.*;
 import com.altale.service.CSSystem;
+import com.altale.service.clearing.ClearingThread;
 import com.altale.service.connection.CSSdbinfo;
 import com.altale.service.connection.SQLConnection;
 import com.altale.util.BeanFactoryUtil;
@@ -11,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import java.util.Scanner;
 
 public class Launcher {
 
@@ -63,10 +65,14 @@ public class Launcher {
             ex.printStackTrace();
         }
 
-        try{
-            System.in.read();
-        } catch (Exception e) {
-            e.printStackTrace();
+        Scanner sc=new Scanner(System.in);
+        while(true){
+            String s=sc.nextLine();
+            System.out.println(s);
+            if(s.equals("CSSclear")){
+                System.out.println("手动清分启动");
+                ClearingThread.Clearing();
+            }
         }
     }
 
