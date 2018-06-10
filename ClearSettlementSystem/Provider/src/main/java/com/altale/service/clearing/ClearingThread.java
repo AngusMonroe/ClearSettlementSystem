@@ -26,7 +26,7 @@ public class ClearingThread {
             logger.info("清分成功");
         }catch (Exception ex){
             ex.printStackTrace();
-            logger.info("清分失败");
+            logger.error("清分失败");
         }
     }
 }
