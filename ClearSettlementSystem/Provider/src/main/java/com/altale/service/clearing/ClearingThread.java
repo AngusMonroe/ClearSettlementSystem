@@ -11,7 +11,7 @@ public class ClearingThread {
     private static final Logger logger = LoggerFactory.getLogger(ClearingThread.class);
     //@Scheduled(cron = "0/5 * * * * ?") //<-从0秒开始每5秒执行一次
     @Scheduled(cron = "0 0 23 * * ?") //<-每天23点的cron表达式大概是这样
-    public void Clearing(){
+    public static void Clearing(){
         try {
             SQLConnection sqlConnection= new SQLConnection
                     (

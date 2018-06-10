@@ -88,7 +88,10 @@ public class JSONUtil {
         String text = jsArray.toString();
         String fileName = DateUtil.getCurrDate() + ".json";
         String filePath = Constant.jspath + fileName;
-
+        File testdir=new File(Constant.jspath);
+        if(!testdir.exists()){
+            testdir.mkdirs();
+        }
         File file = new File(filePath);
         PrintStream ps = null;
         try {
@@ -97,7 +100,7 @@ public class JSONUtil {
             e.printStackTrace();
         }
         ps.print(text);			   // 往文件里写入字符串
-        // ps.append("something"); // 在已有的基础上添加字符串
+        //ps.append("something"); // 在已有的基础上添加字符串
     }
 
     public static void main(String[] args) throws JSONException {
