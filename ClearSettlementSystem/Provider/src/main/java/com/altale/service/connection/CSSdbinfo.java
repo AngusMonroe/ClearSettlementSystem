@@ -15,8 +15,8 @@ public class CSSdbinfo {
     public static String server = "localhost";
     public static String port = "3306";
     public static String database = "css";
-    public static String username = "ruangong";
-    public static String password = "ruangong";
-    //public static String username = "manage";
-    //public static String password = "nbzdwdmm";
+    //public static String username = "ruangong";
+    //public static String password = "ruangong";
+    public static String username = "manage";
+    public static String password = "nbzdwdmm";
 }

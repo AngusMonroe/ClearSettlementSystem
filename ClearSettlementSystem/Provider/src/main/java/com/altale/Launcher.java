@@ -37,14 +37,12 @@ public class Launcher {
 
         accountService.CSSystemReady();
         logger.info("清结算系统启动");
-        System.out.println("清结算系统启动");
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             @Override
             public void run() {
                 accountService.CSSystemClosing();
                 logger.info("清结算系统结束运行");
-                System.out.println("清结算系统结束运行");
             }
         }));
 
@@ -59,7 +57,6 @@ public class Launcher {
                             CSSdbinfo.password
                     );
             logger.info("数据库已连接");
-            System.out.println("数据库已连接");
         }catch (Exception ex){
             logger.error("数据库连接失败");
             sqlConnection=null;
