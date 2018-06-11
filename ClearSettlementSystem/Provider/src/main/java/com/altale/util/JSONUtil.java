@@ -16,6 +16,15 @@ import org.json.JSONObject;
 import com.altale.service.CSException.TimeOutOfRangeException;
 
 public class JSONUtil {
+    public static JSONArray getClearingFromFile(){
+        String ans = "";
+        for(int i = 15; i >= 1; i--) {
+            Date date = DateUtil.toDayBefore(new Date(), i);
+            JSONArray dateArray = getClearingFromFile(date);
+            ans += dateArray.toString();
+        }
+        return new JSONArray(ans);
+    }
 
     public static JSONArray getClearingFromFile(Date date) {
 

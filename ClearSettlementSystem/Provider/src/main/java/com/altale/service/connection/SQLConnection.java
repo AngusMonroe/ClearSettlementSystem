@@ -206,6 +206,11 @@ public class SQLConnection
 		return ans;
 	}
 
+	public JSONArray findQueryRecord(int kind) {
+		Date date = DateUtil.toDayBefore(new Date(), 15);
+		return  findQueryRecord(date, new Date(), kind);
+	}
+
 	/**
 	 * 
 	 * @param startTime
