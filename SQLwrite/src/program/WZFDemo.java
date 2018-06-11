@@ -68,9 +68,9 @@ public class WZFDemo
 			 */
 			
 			//创建请求
-			RechargeRequest rechargeRequest = new RechargeRequest("123", "456", 7.89, true, "2018-5-28 15:42:00");
-			WithdrawRequest withdrawRequest = new WithdrawRequest("987", "654", 3.21, true, "2018-5-27 16:43:01");
-			TradeRequest tradeRequest = new TradeRequest("111", "222", "333", 4.44, true, "2018-5-29 17:44:02");
+			RechargeRequest rechargeRequest = new RechargeRequest("123", "456", 7.89, true, "2018-6-10 15:42:00");
+			WithdrawRequest withdrawRequest = new WithdrawRequest("987", "654", 3.21, true, "2018-6-10 16:43:01");
+			TradeRequest tradeRequest = new TradeRequest("111", "222", "333", 4.44, true, "2018-6-10 17:44:02");
 			
 			//发送请求，并返回请求ID，若失败返回"-1"
 			String rechargeRequestID = sqlConnection.sendRequest(rechargeRequest);
