@@ -1,4 +1,4 @@
-package com.altale.service.connection;
+﻿package com.altale.service.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -219,14 +219,17 @@ public class SQLConnection
 	 * @return
 	 * @throws SQLException 
 	 */
-	public JSONArray findQueryRecord(Date startTime, Date endTime, int kind) {
-		
+	public JSONArray findQueryRecord(Date start, Date end, int kind) {
+
 		Date before15day = DateUtil.toDayBefore(new Date(), 15);
-		if(!startTime.before(endTime) 
-				|| !startTime.after(before15day) 
-				|| !endTime.before(new Date())) {
+		if(!start.before(end) 
+				|| !end.after(before15day) 
+				|| !end.before(new Date())) {
 			throw new TimeOutOfRangeException();
 		}
+		
+		String startTime = DateUtil.dateToString(start, 1);
+		String endTime = DateUtil.dateToString(end, 1);
 		
 		ArrayList<Message> messages = null;
 		try{

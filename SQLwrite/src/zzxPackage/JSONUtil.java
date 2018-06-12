@@ -17,6 +17,16 @@ import exception.TimeOutOfRangeException;
 
 public class JSONUtil {
 
+   public static JSONArray getClearingFromFile() throws JSONException{
+        String ans = "";
+        for(int i = 15; i >= 1; i--) {
+            Date date = DateUtil.toDayBefore(new Date(), i);
+            JSONArray dateArray = getClearingFromFile(date);
+            ans += dateArray.toString();
+        }
+        return new JSONArray(ans);
+    }
+	   
 	public static JSONArray getClearingFromFile(Date date) {
 		
 		// ºÏ≤‚ ±º‰∑∂Œß
@@ -88,6 +98,10 @@ public class JSONUtil {
 		String text = jsArray.toString();
 		String fileName = DateUtil.getCurrDate() + ".json";
 		String filePath = Constant.jspath + fileName;
+        File testdir=new File(Constant.jspath);
+        if(!testdir.exists()){
+            testdir.mkdirs();
+        }
 		
 		File file = new File(filePath);  
         PrintStream ps = null;
