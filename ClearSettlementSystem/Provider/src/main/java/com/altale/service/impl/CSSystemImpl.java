@@ -7,11 +7,14 @@ import com.altale.util.*;
 import com.altale.service.request.*;
 import com.altale.service.connection.*;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -67,11 +70,30 @@ public class CSSystemImpl implements CSSystem{
     @Override
     public String DownloadFile(String requestTime) throws TimeOutOfRangeException {
         logger.info("DownloadFile on "+requestTime);
-        if(requestTime.equals(""))
-            return JSONUtil.getClearingFromFile().toString();
-        else {
-            return JSONUtil.getClearingFromFile(DateUtil.strToDate(requestTime)).toString();
+        Date date,before15day;
+        try{
+            if(requestTime.equals(""))
+                date=DateUtil.toDayBefore(new Date(), 15);
+            else
+                date = DateUtil.strToDate(requestTime);
+            before15day = DateUtil.toDayBefore(new Date(), 15);
+        }catch (Exception ex){
+            throw new TimeOutOfRangeException();
         }
-
+        if (date.before(before15day)) {
+            throw new TimeOutOfRangeException();
+        }
+        ArrayList<JSONObject> al=new ArrayList<JSONObject>();
+        while(date.before(new Date())) {
+            JSONObject json=new JSONObject();
+            File file=new File(Constant.jspath+DateUtil.dateToString(date, 1) + ".json");
+            if(file.exists()) {
+                json.put("Name", DateUtil.dateToString(date, 1) + ".json");
+                json.put("Address", Constant.urlpath + DateUtil.dateToString(date, 1) + ".json");
+                al.add(json);
+            }
+            date = DateUtil.toDayBefore(date, -1);
+        }
+        return al.toString();
     }
 }

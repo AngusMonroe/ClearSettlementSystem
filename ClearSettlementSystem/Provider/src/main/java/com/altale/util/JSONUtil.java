@@ -56,7 +56,7 @@ public class JSONUtil {
     public static JSONArray getClearingFromFile(Date date) {
         String source = "";
         while(date.before(new Date())) {
-            source += getClearingFromFile(date);
+            source += getClearingFromFileByDate(date);
             date = DateUtil.toDayBefore(date, -1);
         }
         JSONArray jsArray = null;
