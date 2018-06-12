@@ -58,7 +58,7 @@ public class CSSystemImpl implements CSSystem{
     public String QueryRecord(String startTime, String endTime, int operatorID) throws TimeOutOfRangeException, OperatorIdOutOfRangeException {
         logger.info("QueryRecord from "+startTime+"to  "+endTime);
         if(Launcher.sqlConnection==null) return"-1";
-        if(startTime == "" || endTime == "")
+        if(startTime.equals("") || endTime.equals(""))
             return  Launcher.sqlConnection.findQueryRecord(operatorID).toString();
         else
             return Launcher.sqlConnection.findQueryRecord(DateUtil.strToDate(startTime),DateUtil.strToDate(endTime),operatorID).toString();
@@ -67,9 +67,11 @@ public class CSSystemImpl implements CSSystem{
     @Override
     public String DownloadFile(String requestTime) throws TimeOutOfRangeException {
         logger.info("DownloadFile on "+requestTime);
-        if(requestTime == "")
+        if(requestTime.equals(""))
             return JSONUtil.getClearingFromFile().toString();
-        else
+        else {
             return JSONUtil.getClearingFromFile(DateUtil.strToDate(requestTime)).toString();
+        }
+
     }
 }

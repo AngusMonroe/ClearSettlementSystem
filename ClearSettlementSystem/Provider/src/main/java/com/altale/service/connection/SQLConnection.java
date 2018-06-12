@@ -1,4 +1,4 @@
-﻿package com.altale.service.connection;
+package com.altale.service.connection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

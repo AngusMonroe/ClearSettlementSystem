@@ -18,15 +18,13 @@ import com.altale.service.CSException.TimeOutOfRangeException;
 public class JSONUtil {
     public static JSONArray getClearingFromFile(){
         String ans = "";
-        for(int i = 15; i >= 1; i--) {
-            Date date = DateUtil.toDayBefore(new Date(), i);
-            JSONArray dateArray = getClearingFromFile(date);
-            ans += dateArray.toString();
-        }
+        Date date = DateUtil.toDayBefore(new Date(), 15);
+        JSONArray dateArray = getClearingFromFile(date);
         return new JSONArray(ans);
     }
 
-    public static JSONArray getClearingFromFile(Date date) {
+
+    public static String getClearingFromFileByDate(Date date) {
 
         // 检测时间范围
         Date before15day = DateUtil.toDayBefore(new Date(), 15);
@@ -37,20 +35,30 @@ public class JSONUtil {
         // 从文件读取字符串
         String filename = DateUtil.dateToString(date, 1) + ".json";
         StringBuilder sBuilder = new StringBuilder();
-        try{
+        try {
             FileReader fileReader = new FileReader(Constant.jspath + filename);
             BufferedReader br = new BufferedReader(fileReader);
             String s = null;
-            while((s = br.readLine())!=null){//使用readLine方法，一次读一行
-                sBuilder.append(System.lineSeparator()+s);
+            while ((s = br.readLine()) != null) {//使用readLine方法，一次读一行
+                sBuilder.append(System.lineSeparator() + s);
             }
             br.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         // 转换
         String source = sBuilder.toString();
+        return  source;
+    }
+
+    /** 从date到今天 */
+    public static JSONArray getClearingFromFile(Date date) {
+        String source = "";
+        while(date.before(new Date())) {
+            source += getClearingFromFile(date);
+            date = DateUtil.toDayBefore(date, -1);
+        }
         JSONArray jsArray = null;
         try {
             jsArray = new JSONArray(source);
