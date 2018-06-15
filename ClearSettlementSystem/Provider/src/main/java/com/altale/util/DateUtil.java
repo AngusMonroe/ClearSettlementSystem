@@ -1,4 +1,4 @@
-package com.altale.util;
+﻿package com.altale.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -14,14 +14,15 @@ public class DateUtil {
     };
 
     private static boolean isLdateStr(String date) {
-        SimpleDateFormat format = new SimpleDateFormat(dateFormat[0]);
-        try {
-            format.setLenient(false);
-            format.parse(date);
-            return true;
-        } catch (ParseException e) {
-            return false;
-        }
+ //      SimpleDateFormat format = new SimpleDateFormat(dateFormat[0]);
+ //      try {
+ //           format.setLenient(false);
+ //           format.parse(date);
+ //          return true;
+ //       } catch (ParseException e) {
+ //           return false;
+ //       }
+	return date.length() >= 11;
     }
 
     private static boolean isSdateStr(String date) {
