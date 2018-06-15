@@ -1,4 +1,4 @@
-﻿package com.altale.util;
+package com.altale.util;
 
 import com.altale.service.CSException.TimeOutOfRangeException;
 
@@ -107,7 +107,7 @@ public class DateUtil {
         int minute = Integer.parseInt(ans.get(4));
         int second = Integer.parseInt(ans.get(5));
         return (0 < month && month <= 12) && (1 <= day && day <= 31)
-                && (1 <= hour && hour < 24) && (0 <= minute && minute < 60)
+                && (0 <= hour && hour < 24) && (0 <= minute && minute < 60)
                 && (0 <= second && second < 60);
     }
 

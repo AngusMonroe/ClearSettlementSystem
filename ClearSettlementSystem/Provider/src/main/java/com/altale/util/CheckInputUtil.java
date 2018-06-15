@@ -40,10 +40,10 @@ public class CheckInputUtil {
         }
     }
 
-    /*
+/*
     public static void main(String[] args){
-        System.out.println(checkString("001"));
-        System.out.println(checkString("1abs"));
+        System.out.println(checkTime("2018-02-01 24:00:00"));
+        //System.out.println(checkString("1abs"));
     }
-    */
+*/
 }
