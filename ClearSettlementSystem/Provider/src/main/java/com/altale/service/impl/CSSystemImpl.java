@@ -26,8 +26,8 @@ public class CSSystemImpl implements CSSystem{
     */
     @Override
     public String Recharge(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException {
-        logger.info("Recharge from " +requestID+"to "+userID+"for "+amount);
-        if(!CheckInputUtil.checkInput(requestID,userID,amount)){
+        logger.info("Recharge from " +requestID+" to "+userID+" for "+amount);
+        if(!CheckInputUtil.checkInput(requestID,userID,amount,requestTime)){
             throw new RequestException("充值参数错误");
         }
         if(Launcher.sqlConnection==null) return"-1";
@@ -37,8 +37,8 @@ public class CSSystemImpl implements CSSystem{
 
     @Override
     public String Withdraw(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException {
-        logger.info("Withdraw from " +requestID+"to "+userID+"for "+amount);
-        if(!CheckInputUtil.checkInput(requestID,userID,amount)) {
+        logger.info("Withdraw from " +requestID+" to "+userID+" for "+amount);
+        if(!CheckInputUtil.checkInput(requestID,userID,amount,requestTime)) {
             throw new RequestException("提现参数错误");
         }
         if(Launcher.sqlConnection==null) return"-1";
@@ -48,8 +48,8 @@ public class CSSystemImpl implements CSSystem{
 
     @Override
     public String Trade(String requestID, String userID, String merchantID, double amount, String requestTime) throws RequestException {
-        logger.info("Trade from " +requestID+"to  "+userID+"for  "+amount);
-        if(!CheckInputUtil.checkInput(requestID,userID,merchantID,amount)) {
+        logger.info("Trade from " +requestID+" to "+userID+" for  "+amount);
+        if(!CheckInputUtil.checkInput(requestID,userID,merchantID,amount,requestTime)) {
             throw new RequestException("转账参数错误");
         }
         if(Launcher.sqlConnection==null) return"-1";
@@ -59,7 +59,7 @@ public class CSSystemImpl implements CSSystem{
 
     @Override
     public String QueryRecord(String startTime, String endTime, int operatorID) throws TimeOutOfRangeException, OperatorIdOutOfRangeException {
-        logger.info("QueryRecord from "+startTime+"to  "+endTime);
+        logger.info("QueryRecord from "+startTime+" to  "+endTime);
         if(Launcher.sqlConnection==null) return"-1";
         if(startTime.equals("") || endTime.equals(""))
             return  Launcher.sqlConnection.findQueryRecord(operatorID).toString();
@@ -80,11 +80,11 @@ public class CSSystemImpl implements CSSystem{
         }catch (Exception ex){
             throw new TimeOutOfRangeException();
         }
-        if (date.before(before15day)) {
+        if (!date.after(before15day)) {
             throw new TimeOutOfRangeException();
         }
         ArrayList<JSONObject> al=new ArrayList<JSONObject>();
-        while(date.before(new Date())) {
+        while(!date.after(new Date())) {
             JSONObject json=new JSONObject();
             File file=new File(Constant.jspath+DateUtil.dateToString(date, 1) + ".json");
             if(file.exists()) {

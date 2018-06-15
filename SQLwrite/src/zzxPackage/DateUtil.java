@@ -30,17 +30,17 @@ public class DateUtil {
 		int kind;
 		if (isLdateStr(strDate)) {
 			kind = 0;
-			// ¼ìÑé¸ñÊ½1
+			// æ£€éªŒæ ¼å¼1
 			SimpleDateFormat format = new SimpleDateFormat(dateFormat[1]);
 			format.setLenient(false);
 			try {
 				format.parse(strDate);
 			} catch (ParseException e) {
-				throw new TimeOutOfRangeException("´íÎóÊ±¼ä");
+				throw new TimeOutOfRangeException("é”™è¯¯æ—¶é—´");
 			}
-			// ¼ìÑé¸ñÊ½2
-			if(!checkLTime(strDate)) { // ¶Ô60·Ö¼ì²â
-				throw new TimeOutOfRangeException("´íÎóÊ±¼ä");
+			// æ£€éªŒæ ¼å¼2
+			if(!checkLTime(strDate)) { // å¯¹60åˆ†æ£€æµ‹
+				throw new TimeOutOfRangeException("é”™è¯¯æ—¶é—´");
 			}
 		} else if (isSdateStr(strDate)) {
 			kind = 1;
@@ -49,13 +49,13 @@ public class DateUtil {
 			try {
 				format.parse(strDate);
 			} catch (ParseException e) {
-				throw new TimeOutOfRangeException("´íÎóÊ±¼ä");
+				throw new TimeOutOfRangeException("é”™è¯¯æ—¶é—´");
 			}
-			if(!checkSTime(strDate)) { // ¶Ô60·Ö¼ì²â
-				throw new TimeOutOfRangeException("´íÎóÊ±¼ä");
+			if(!checkSTime(strDate)) { // å¯¹60åˆ†æ£€æµ‹
+				throw new TimeOutOfRangeException("é”™è¯¯æ—¶é—´");
 			}
 		} else {
-			throw new TimeOutOfRangeException("´íÎóÊ±¼ä");
+			throw new TimeOutOfRangeException("é”™è¯¯æ—¶é—´");
 		}
 		SimpleDateFormat formatter = new SimpleDateFormat(dateFormat[kind]);  
 	    ParsePosition pos = new ParsePosition(0);  
@@ -77,7 +77,7 @@ public class DateUtil {
 	/**
 	 * 
 	 * @param date
-	 * @param kind 0:³¤¸ñÊ½  1:¶Ì¸ñÊ½
+	 * @param kind 0:é•¿æ ¼å¼  1:çŸ­æ ¼å¼
 	 * @return
 	 */
 	public static String dateToString(Date date, int kind){
@@ -99,7 +99,7 @@ public class DateUtil {
 		ArrayList<String> ans = 
 				getPartialString("(\\d+)-(\\d+)-(\\d+) (\\d+):(\\d+):(\\d+)", date, 1,2,3,4,5,6);
 		if(ans == null)
-			return false; // Ê§Åä
+			return false; // å¤±é…
 		int year = Integer.parseInt(ans.get(0)); 
 		int month = Integer.parseInt(ans.get(1)); 
 		int day = Integer.parseInt(ans.get(2)); 
@@ -116,7 +116,7 @@ public class DateUtil {
 		ArrayList<String> ans = 
 				getPartialString("(\\d+)-(\\d+)-(\\d+)", date, 1,2,3);
 		if(ans == null)
-			return false; // Ê§Åä
+			return false; // å¤±é…
 		int year = Integer.parseInt(ans.get(0)); 
 		int month = Integer.parseInt(ans.get(1)); 
 		int day = Integer.parseInt(ans.get(2)); 
@@ -127,8 +127,8 @@ public class DateUtil {
 	 * 
 	 * @param regex
 	 * @param input
-	 * @param groupID 0´ú±í±¾Éí
-	 * @return Î´ÕÒµ½:null
+	 * @param groupID 0ä»£è¡¨æœ¬èº«
+	 * @return æœªæ‰¾åˆ°:null
 	 */
 	private static ArrayList<String> getPartialString(String regex, String input, int... groupID) {
 		Pattern pattern = Pattern.compile(regex);

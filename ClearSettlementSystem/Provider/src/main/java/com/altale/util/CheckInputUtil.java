@@ -1,6 +1,7 @@
 package com.altale.util;
 
 import java.math.BigInteger;
+import java.util.Date;
 
 public class CheckInputUtil {
     public static boolean checkString(String ID){
@@ -16,25 +17,23 @@ public class CheckInputUtil {
             return true;
         }
     }
-    public static boolean checkInput(String requestID, String userID, double amount){
-        if(!checkString(requestID)){
+    public static boolean checkTime(String requestTime){
+        try{
+            DateUtil.strToDate(requestTime);
+        }catch (Exception ex){
             return false;
-        }else if(!checkString(userID)){
-            return false;
-        }else if(amount<=0){
+        }
+        return true;
+    }
+    public static boolean checkInput(String requestID, String userID, double amount,String requestTime){
+        if(!checkString(requestID)||!checkString(userID)||amount<=0||!checkTime(requestTime)){
             return false;
         }else{
             return true;
         }
     }
-    public static boolean checkInput(String requestID, String userID, String merchantID, double amount){
-        if(!checkString(requestID)){
-            return false;
-        }else if(!checkString(userID)){
-            return false;
-        }else if(!checkString(merchantID)){
-            return false;
-        }else if(amount<=0){
+    public static boolean checkInput(String requestID, String userID, String merchantID, double amount,String requestTime){
+        if(!checkString(requestID)||!checkString(userID)||!checkString(merchantID)||amount<=0||!checkTime(requestTime)){
             return false;
         }else{
             return true;
