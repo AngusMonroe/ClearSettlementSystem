@@ -30,17 +30,17 @@ public class DateUtil {
 		int kind;
 		if (isLdateStr(strDate)) {
 			kind = 0;
-			// 检验格式1
+			// 妫�楠屾牸寮�1
 			SimpleDateFormat format = new SimpleDateFormat(dateFormat[1]);
 			format.setLenient(false);
 			try {
 				format.parse(strDate);
 			} catch (ParseException e) {
-				throw new TimeOutOfRangeException("错误时间");
+				throw new TimeOutOfRangeException("閿欒鏃堕棿");
 			}
-			// 检验格式2
-			if(!checkLTime(strDate)) { // 对60分检测
-				throw new TimeOutOfRangeException("错误时间");
+			// 妫�楠屾牸寮�2
+			if(!checkLTime(strDate)) { // 瀵�60鍒嗘娴�
+				throw new TimeOutOfRangeException("閿欒鏃堕棿");
 			}
 		} else if (isSdateStr(strDate)) {
 			kind = 1;
@@ -49,13 +49,13 @@ public class DateUtil {
 			try {
 				format.parse(strDate);
 			} catch (ParseException e) {
-				throw new TimeOutOfRangeException("错误时间");
+				throw new TimeOutOfRangeException("閿欒鏃堕棿");
 			}
-			if(!checkSTime(strDate)) { // 对60分检测
-				throw new TimeOutOfRangeException("错误时间");
+			if(!checkSTime(strDate)) { // 瀵�60鍒嗘娴�
+				throw new TimeOutOfRangeException("閿欒鏃堕棿");
 			}
 		} else {
-			throw new TimeOutOfRangeException("错误时间");
+			throw new TimeOutOfRangeException("閿欒鏃堕棿");
 		}
 		SimpleDateFormat formatter = new SimpleDateFormat(dateFormat[kind]);  
 	    ParsePosition pos = new ParsePosition(0);  
@@ -77,7 +77,7 @@ public class DateUtil {
 	/**
 	 * 
 	 * @param date
-	 * @param kind 0:长格式  1:短格式
+	 * @param kind 0:闀挎牸寮�  1:鐭牸寮�
 	 * @return
 	 */
 	public static String dateToString(Date date, int kind){
@@ -99,7 +99,7 @@ public class DateUtil {
 		ArrayList<String> ans = 
 				getPartialString("(\\d+)-(\\d+)-(\\d+) (\\d+):(\\d+):(\\d+)", date, 1,2,3,4,5,6);
 		if(ans == null)
-			return false; // 失配
+			return false; // 澶遍厤
 		int year = Integer.parseInt(ans.get(0)); 
 		int month = Integer.parseInt(ans.get(1)); 
 		int day = Integer.parseInt(ans.get(2)); 
@@ -107,7 +107,7 @@ public class DateUtil {
 		int minute = Integer.parseInt(ans.get(4)); 
 		int second = Integer.parseInt(ans.get(5)); 
 		return (0 < month && month <= 12) && (1 <= day && day <= 31)
-				&& (1 <= hour && hour < 24) && (0 <= minute && minute < 60)
+				&& (0 <= hour && hour < 24) && (0 <= minute && minute < 60)
 				&& (0 <= second && second < 60);
 	}
 	
@@ -116,7 +116,7 @@ public class DateUtil {
 		ArrayList<String> ans = 
 				getPartialString("(\\d+)-(\\d+)-(\\d+)", date, 1,2,3);
 		if(ans == null)
-			return false; // 失配
+			return false; // 澶遍厤
 		int year = Integer.parseInt(ans.get(0)); 
 		int month = Integer.parseInt(ans.get(1)); 
 		int day = Integer.parseInt(ans.get(2)); 
@@ -127,8 +127,8 @@ public class DateUtil {
 	 * 
 	 * @param regex
 	 * @param input
-	 * @param groupID 0代表本身
-	 * @return 未找到:null
+	 * @param groupID 0浠ｈ〃鏈韩
+	 * @return 鏈壘鍒�:null
 	 */
 	private static ArrayList<String> getPartialString(String regex, String input, int... groupID) {
 		Pattern pattern = Pattern.compile(regex);
@@ -147,7 +147,7 @@ public class DateUtil {
 	}
 	
 	public static void main(String[] args) {
-		Date date = strToDate("1234567890");
+		Date date = strToDate("2019-02-02 00:00:00");
 		System.out.println(date.toString());
 		//System.out.println(DateUtil.isLdateStr("2016-13-08"));
 	}
