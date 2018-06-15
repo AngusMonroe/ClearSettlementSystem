@@ -75,6 +75,12 @@ public class CSSystemImplTest {
                 css.Recharge("1001","1621",21,true,"2018-13-01 12:00:30"));
     }//月份错误2
     @Test
+    public void recharge7_day() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("505",
+                css.Recharge("505","1621",21,true,"2018-11-00 12:00:30"));
+    }//日期为0
+    @Test
     public void recharge8() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
         assertEquals("-1",
@@ -155,8 +161,8 @@ public class CSSystemImplTest {
         assertEquals("1004",
                 css.Recharge("1004","1621",21,true,"2008-02-29 00:00:00"));
     }
-
 */
+
 /*withdraw*/
 /*
     @Test
@@ -201,6 +207,12 @@ public class CSSystemImplTest {
         assertEquals("-1",
                 css.Withdraw("1001","1621",21,true,"2018-13-01 12:00:30"));
     }//月份错误2
+    @Test
+    public void withdraw7_day) throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("505",
+                css.Withdraw("505","1621",21,true,"2018-10-00 12:00:30"));
+    }//日期为0
     @Test
     public void withdraw8() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
@@ -282,10 +294,10 @@ public class CSSystemImplTest {
         assertEquals("1004",
                 css.Withdraw("1004","1621",21,true,"2008-02-29 00:00:00"));
     }
-*/
 
+*/
     /*trade*/
-    @Test
+/*    @Test
     public void trade1() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
         assertEquals("-1",
@@ -419,22 +431,193 @@ public class CSSystemImplTest {
         assertEquals("1004",
                 css.Trade("1004","1621","2333",66.6,"2018-06-06 01:00:30"));
     }//
+*/
 
+/*queryRecord*/
 /**/
-/*
+
     @Test
     public void queryRecord1() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
-        assertEquals("[]",
+        assertEquals("-1",
+                css.QueryRecord("","2018-06-08 23:59:59",2));
+    }//开始为空
+    @Test
+    public void queryRecord2() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("aa2018-06-01 00:00:00","2018-06-08 23:59:59",2));
+    }//开始时间非法
+    @Test
+    public void queryRecord3() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-06-01 00:00:00","",2));
+    }//结束时间为空
+    @Test
+    public void queryRecord4() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-06-02 00:00:00","bb2018-03-08 23:59:59",2));
+    }//结束时间非法
+    @Test
+    public void queryRecord3_null() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("","",2));
+    }//时间为空
+    @Test
+    public void queryRecord5() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
                 css.QueryRecord("2018-06-01 00:00:00","2018-03-08 23:59:59",2));
+    }//结束时间在开始之前
+    @Test
+    public void queryRecord6() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-00-01 00:00:00","2018-03-08 23:59:59",2));
+    }//月1
+    @Test
+    public void queryRecord7() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-13-01 00:00:00","2019-03-08 23:59:59",2));
+    }//月2
+    @Test
+    public void queryRecord8() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-05-32 00:00:00","2018-06-08 23:59:59",2));
+    }//大月
+    @Test
+    public void queryRecord9() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-06-31 00:00:00","2018-07-08 23:59:59",2));
+    }//小月
+    @Test
+    public void queryRecord10() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-02-29 00:00:00","2018-03-08 23:59:59",2));
+    }//非闰年2月
+    @Test
+    public void queryRecord11() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2008-02-30 00:00:00","2018-03-08 23:59:59",2));
+    }//闰年2月
+    @Test
+    public void queryRecord12() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-06-01 24:00:00","2018-06-08 00:59:59",2));
+    }//时
+    @Test
+    public void queryRecord13() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-06-01 00:0:00","2018-06-08 23:60:59",2));
+    }//分
+    @Test
+    public void queryRecord14() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2018-06-01 00:00:00","2018-06-08 23:59:60",2));
+    }//秒
+    @Test
+    public void queryRecord15() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.QueryRecord("2008-06-01 00:00:00","2008-06-08 23:59:59",2));
+    }//不在15天时间范围
+    @Test
+    public void queryRecord16() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("[]",
+                css.QueryRecord("2018-06-01 00:00:00","2018-06-08 23:59:59",3));
+    }//参数错误
+//有效
+    @Test
+    public void queryRecordA() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("[]",
+                css.QueryRecord("2018-06-02 00:00:00","2018-06-08 23:59:59",2));
     }
-*/
+
+
+
+
+
+/*downloadFile*/
 /*
     @Test
      public void downloadFile1() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
-        assertEquals("[]",
-                css.DownloadFile("2018-06-01 00:00:00"));
+        assertEquals("-1",
+                css.DownloadFile(""));
+    }//空
+    @Test
+    public void downloadFile2() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2018-00-01 00:00:00"));
+    }//月1
+    @Test
+    public void downloadFile3() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2018-13-01 00:00:00"));
+    }//月2
+    @Test
+    public void downloadFile4() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2018-06-00 00:00:00"));
+    }//日
+    @Test
+    public void downloadFile5() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2018-05-32 00:00:00"));
+    }//大月
+    @Test
+    public void downloadFile6() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2018-06-31 00:00:00"));
+    }//小月
+    @Test
+    public void downloadFile7() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2018-02-29 00:00:00"));
+    }//非闰年2月
+    @Test
+    public void downloadFile8() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2008-02-30 00:00:00"));
+    }//闰年2月
+    @Test
+    public void downloadFile9() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("asdfghjkl"));
+    }//格式非法
+    @Test
+    public void downloadFile10() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2018-05-01 00:00:00"));
+    }//不在范围内
+
+    @Test
+    public void downloadFile11() throws Exception{
+        CSSystemImpl css = new CSSystemImpl();
+        assertEquals("-1",
+                css.DownloadFile("2018-06-06 00:00:00"));
     }
 */
 }

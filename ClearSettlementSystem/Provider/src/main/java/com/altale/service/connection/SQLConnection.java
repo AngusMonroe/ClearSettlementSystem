@@ -224,7 +224,10 @@ public class SQLConnection
 		Date before15day = DateUtil.toDayBefore(new Date(), 15);
 		if(!start.before(end) 
 				|| !end.after(before15day) 
-				|| !end.before(new Date())) {
+				|| end.after(new Date())) {
+			System.out.println(!start.before(end)
+					+" "+ !end.after(before15day)
+					+" "+ !end.before(new Date()));
 			throw new TimeOutOfRangeException();
 		}
 		
@@ -272,7 +275,7 @@ public class SQLConnection
 				}
 				
 			} else if (kind == 2) {
-				String sql = "SELECT requestID, userID, mrechantID, requestTime, amount, operateStatus"
+				String sql = "SELECT requestID, userID, merchantID, requestTime, amount, operateStatus"
 						+ " FROM trade "
 						+ " WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "'";
 				Statement statement = connection.createStatement();
@@ -282,12 +285,12 @@ public class SQLConnection
 				while (rs.next()) {
 					String requestID = rs.getString("requestID");
 					String userID = rs.getString("userID");
-					String mrechantID = rs.getString("mrechantID");
+					String merchantID = rs.getString("merchantID");
 					Date requestTime = rs.getDate("requestTime"); // TODO:可以吗
 					double amount = rs.getDouble("amount");
 					int operateStatus = rs.getInt("operateStatus");
 					Message message = new TradeMessage(
-							requestID, userID, mrechantID, requestTime, amount, operateStatus);
+							requestID, userID, merchantID, requestTime, amount, operateStatus);
 					messages.add(message);
 				}
 				
