@@ -98,5 +98,22 @@ public class ClearingTest {
         {
             e.printStackTrace();
         }
+        try
+        {
+            SQLConnection sqlConnection = new SQLConnection
+                    (
+                            "jdbc:mysql://" +
+                                    CSSdbinfo.server +  ":" +
+                                    CSSdbinfo.port + "/" +
+                                    "css" + "?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8",
+                            "ruangong",
+                            "ruangong"
+                    );
+            assertTrue((0-sqlConnection.clearing())<0.00001);
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

@@ -160,7 +160,7 @@ public class SQLConnection
 			String endTime = DateUtil.dateToString(end, 0);
 			String selectSQL = "SELECT merchantID, SUM(amount) as amo "
 					+ "FROM trade "
-					+ "WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "' "
+					+ "WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "' AND operateStatus = 0 "
 					+ "GROUP BY merchantID";
 			Statement statement1 = connection.createStatement();
 			ResultSet rs = statement1.executeQuery(selectSQL);
@@ -190,7 +190,6 @@ public class SQLConnection
 //			if (currClearingMessage.merchantID != notExist) {
 //				clearingMessages.add(currClearingMessage);
 //			}
-			logger.info(clearingMessages.size());
 			double sumearning=0;
 			// 进行清分转账
 			for(ClearingMessage message : clearingMessages) {
@@ -202,11 +201,10 @@ public class SQLConnection
 //				double	amount	转账额	无
 //				boolean	trade_type	交易类型	false转账，true消费
 				sumearning+=fee;
-				logger.info(fee+" "+amount);
 				//待清算账户2转账给平台账户1
-				//Launcher.accountService.transferConsume(2, 1, fee, false);
+				Launcher.accountService.transferConsume(2, 1, fee, false);
 				//待清算账户2转账给商户
-				//Launcher.accountService.transferConsume(2, Integer.valueOf(merchantID), amount, false);
+				Launcher.accountService.transferConsume(2, Integer.valueOf(merchantID), amount, false);
 			}
 
 			logger.info("Today's earning is "+sumearning+" yuan");
