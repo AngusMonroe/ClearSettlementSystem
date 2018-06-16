@@ -32,7 +32,7 @@ public class CSSystemImplTest {
     }
 
     /*recharge*/
-/*    @Test
+/*   @Test
     public void recharge1() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
         assertEquals("-1",
@@ -297,7 +297,7 @@ public class CSSystemImplTest {
 
 */
     /*trade*/
-/*    @Test
+   @Test
     public void trade1() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
         assertEquals("-1",
@@ -431,27 +431,27 @@ public class CSSystemImplTest {
         assertEquals("1004",
                 css.Trade("1004","1621","2333",66.6,"2018-06-06 01:00:30"));
     }//
-*/
+/* */
 
 /*queryRecord*/
-/**/
 
-    @Test
+
+/*    @Test
     public void queryRecord1() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
-        assertEquals("-1",
+        assertEquals("[]",
                 css.QueryRecord("","2018-06-08 23:59:59",2));
     }//开始为空
     @Test
     public void queryRecord2() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
-        assertEquals("-1",
+        assertEquals("[]",
                 css.QueryRecord("aa2018-06-01 00:00:00","2018-06-08 23:59:59",2));
     }//开始时间非法
     @Test
     public void queryRecord3() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
-        assertEquals("-1",
+        assertEquals("[]",
                 css.QueryRecord("2018-06-01 00:00:00","",2));
     }//结束时间为空
     @Test
@@ -463,7 +463,7 @@ public class CSSystemImplTest {
     @Test
     public void queryRecord3_null() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
-        assertEquals("-1",
+        assertEquals("[]",
                 css.QueryRecord("","",2));
     }//时间为空
     @Test
@@ -545,17 +545,17 @@ public class CSSystemImplTest {
         assertEquals("[]",
                 css.QueryRecord("2018-06-02 00:00:00","2018-06-08 23:59:59",2));
     }
-
+*/
 
 
 
 
 /*downloadFile*/
-/*
-    @Test
+
+/*    @Test
      public void downloadFile1() throws Exception{
         CSSystemImpl css = new CSSystemImpl();
-        assertEquals("-1",
+        assertEquals("",
                 css.DownloadFile(""));
     }//空
     @Test
