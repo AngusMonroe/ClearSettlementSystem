@@ -20,4 +20,17 @@ public final class RechargeRequest extends Request
 	{
 		super(requestID, userID, "0", amount, false, method, requestTime);
 	}
+	
+	public void display()
+	{
+		System.out.print
+		(
+			"Recharge Request: \n" +
+			"Request ID: " + requestID + "\n" + 
+			"User ID: " + userID + "\n" +
+			"Amount: " + amount + "\n" +
+			"Method: " + method + "\n" +
+			"Request Time: " + requestTime + "\n"
+		);
+	}
 }

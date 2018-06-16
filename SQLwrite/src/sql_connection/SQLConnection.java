@@ -129,6 +129,7 @@ public class SQLConnection
 					+ "GROUP BY merchantID";
 			Statement statement1 = connection.createStatement();
 			ResultSet rs = statement1.executeQuery(selectSQL);
+			System.out.println(selectSQL);
 			
 			while(rs.next()){
 	            String merchantID  = rs.getString("merchantID");
@@ -138,6 +139,7 @@ public class SQLConnection
 						amount * (1 - Constant.texRatio),
 						amount * Constant.texRatio
 				);
+	            System.out.println(message.toJSONObject().toString());
 	            clearingMessages.add(message);
 	        }
 			double sumearning=0;

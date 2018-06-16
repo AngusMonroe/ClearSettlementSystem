@@ -21,4 +21,18 @@ public final class TradeRequest extends Request
 	{
 		super(requestID, userID, merchantID, amount, operateStatus, false, requestTime);
 	}
+	
+	public void display()
+	{
+		System.out.print
+		(
+			"Trade Request: \n" +
+			"Request ID: " + requestID + "\n" + 
+			"User ID: " + userID + "\n" +
+			"Merchant ID: " + merchantID + "\n" +
+			"Amount: " + amount + "\n" +
+			"Operate Status: " + operateStatus + "\n" +
+			"Request Time: " + requestTime + "\n"
+		);
+	}
 }

@@ -32,36 +32,44 @@ public class FinalDemo
 				password
 			);
 			
-			/* 1 */
-			RechargeRequest rechargeRequest = new RechargeRequest("123", "456", 7.89, false, "2018-6-10 15:42:00");
+			/* 1 recharge */
+			System.out.println("---- 1.Recharge ----");
+			RechargeRequest rechargeRequest = new RechargeRequest("123", "456", 7.89, false, "2018-6-13 15:42:00");
 			sqlConnection.sendRequest(rechargeRequest);
+			rechargeRequest.display();
+			System.out.println("\n\n");
 			
-			/* 2 */
-			WithdrawRequest withdrawRequest = new WithdrawRequest("987", "654", 3.21, false, "2018-6-10 16:43:01");
+			/* 2 withdraw */
+			System.out.println("---- 2.Withdraw ----");
+			WithdrawRequest withdrawRequest = new WithdrawRequest("987", "654", 3.21, false, "2018-6-13 16:43:01");
 			sqlConnection.sendRequest(withdrawRequest);
+			withdrawRequest.display();
+			System.out.println("\n\n");
 			
-			/* 3 */
-			TradeRequest tradeRequest_1 = new TradeRequest("001", "111", "555", 1.01, false, "2018-6-10 17:44:02");
-			TradeRequest tradeRequest_2 = new TradeRequest("002", "222", "555", 2.02, false, "2018-6-10 18:45:03");
-			TradeRequest tradeRequest_3 = new TradeRequest("003", "333", "555", 3.03, false, "2018-6-10 19:46:04");
-			sqlConnection.sendRequest(tradeRequest_1);
-			sqlConnection.sendRequest(tradeRequest_2);
-			sqlConnection.sendRequest(tradeRequest_3);
+			/* 3 trade */
+			System.out.println("---- 3.Trade ----");
+			TradeRequest tradeRequest = new TradeRequest("001", "111", "555", 1.01, false, "2018-6-13 17:44:02");
+			sqlConnection.sendRequest(tradeRequest);
+			tradeRequest.display();
+			System.out.println("\n\n");
 			
-			/* 4 */
-			sqlConnection.getClearing(DateUtil.strToDate("2018-06-10"));
-			sqlConnection.getClearing(DateUtil.strToDate("2018-06-11"));
-			sqlConnection.getClearing(DateUtil.strToDate("2018-06-12"));
+			/* 4 clearing */
+			System.out.println("---- 4.Clearing ----");
 			sqlConnection.getClearing(DateUtil.strToDate("2018-06-13"));
 			sqlConnection.getClearing(DateUtil.strToDate("2018-06-14"));
 			sqlConnection.getClearing(DateUtil.strToDate("2018-06-15"));
 			sqlConnection.getClearing(DateUtil.strToDate("2018-06-16"));
+			sqlConnection.getClearing(DateUtil.strToDate("2018-06-17"));
+			System.out.println("\n\n");
 			
-			/* 5 */
-			JSONArray jsonArray = JSONUtil.getClearingFromFile(DateUtil.strToDate("2018-06-11"));
+			/* 5 download file */
+			System.out.println("---- 5.Download File ----");
+			JSONArray jsonArray = JSONUtil.getClearingFromFile(DateUtil.strToDate("2018-06-14"));
 			System.out.println(jsonArray.toString());
+			System.out.println("\n\n");
 			
-			/* 6 */
+			/* 6 query record */
+			System.out.println("---- 6.Query Record ----");
 			JSONArray jsArray2 = sqlConnection.findQueryRecord(2);
 			System.out.println(jsArray2.toString());
 		}

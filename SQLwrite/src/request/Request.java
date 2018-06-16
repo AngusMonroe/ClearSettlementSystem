@@ -22,7 +22,6 @@ public class Request
 	 * @param merchantID 商家ID
 	 * @param amount 金额
 	 * @param operateStatus 操作状态
-	 * @param requestStatus 请求状态
 	 * @param method 方式:false-微信 或 true-支付宝
 	 * @param requestTime 请求时间
 	 * @throws RequestException
@@ -108,5 +107,23 @@ public class Request
 	public void setOperateStatus(boolean operateStatus)
 	{
 		this.operateStatus = operateStatus;
+	}
+	
+	/**
+	 * 显示所有
+	 */
+	public void display()
+	{
+		System.out.print
+		(
+			"Request: \n" +
+			"Request ID: " + requestID + "\n" + 
+			"User ID: " + userID + "\n" +
+			"Merchant ID: " + merchantID + "\n" +
+			"Amount: " + amount + "\n" +
+			"Operate Status: " + operateStatus + "\n" +
+			"Method: " + method + "\n" +
+			"Request Time: " + requestTime + "\n"
+		);
 	}
 }
