@@ -16,105 +16,114 @@ import org.json.JSONObject;
 import exception.TimeOutOfRangeException;
 
 public class JSONUtil {
-
-   public static JSONArray getClearingFromFile() throws JSONException{
-        String ans = "";
-        for(int i = 15; i >= 1; i--) {
-            Date date = DateUtil.toDayBefore(new Date(), i);
-            JSONArray dateArray = getClearingFromFile(date);
-            ans += dateArray.toString();
-        }
-        return new JSONArray(ans);
+    public static JSONArray getClearingFromFile() throws JSONException{
+        Date date = DateUtil.toDayBefore(new Date(), 15);
+        String array = getClearingFromFileByDate(date);
+        return new JSONArray(array);
     }
-	   
-	public static JSONArray getClearingFromFile(Date date) {
-		
-		// ¼ì²âÊ±¼ä·¶Î§
-		Date before15day = DateUtil.toDayBefore(new Date(), 15);
-		if (date.before(before15day)) {
-			throw new TimeOutOfRangeException();
-		}
-		
-		// ´ÓÎÄ¼ş¶ÁÈ¡×Ö·û´®
-		String filename = DateUtil.dateToString(date, 1) + ".json";
+
+
+    public static String getClearingFromFileByDate(Date date) {
+
+        // æ£€æµ‹æ—¶é—´èŒƒå›´
+        Date before15day = DateUtil.toDayBefore(new Date(), 15);
+        if (date.before(before15day)) {
+            throw new TimeOutOfRangeException();
+        }
+
+        // ä»æ–‡ä»¶è¯»å–å­—ç¬¦ä¸²
+        String filename = DateUtil.dateToString(date, 1) + ".json";
         StringBuilder sBuilder = new StringBuilder();
-        try{
-        	FileReader fileReader = new FileReader(Constant.jspath + filename);
+        try {
+        	File testdir=new File(Constant.jspath);
+            if(!testdir.exists()){
+                testdir.mkdirs();
+            }
+            FileReader fileReader = new FileReader(Constant.jspath + filename);
             BufferedReader br = new BufferedReader(fileReader);
             String s = null;
-            while((s = br.readLine())!=null){//Ê¹ÓÃreadLine·½·¨£¬Ò»´Î¶ÁÒ»ĞĞ
-            	sBuilder.append(System.lineSeparator()+s);
+            while ((s = br.readLine()) != null) {//ä½¿ç”¨readLineæ–¹æ³•ï¼Œä¸€æ¬¡è¯»ä¸€è¡Œ
+                sBuilder.append(System.lineSeparator() + s);
             }
-            br.close();    
-        }catch(Exception e){
+            br.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
-        // ×ª»»
+
+        // è½¬æ¢
         String source = sBuilder.toString();
+        return  source;
+    }
+
+    /** ä»dateåˆ°ä»Šå¤© */
+    public static JSONArray getClearingFromFile(Date date) {
+        String source = "";
+        while(date.before(new Date())) {
+            source += getClearingFromFileByDate(date);
+            date = DateUtil.toDayBefore(date, -1);
+        }
         JSONArray jsArray = null;
-		try {
-			jsArray = new JSONArray(source);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return jsArray;
-	}
-	
-	/**
- 	 * ¸ñÊ½£º
- 	 * [{
- 	 * 	"merchantID": 1,
- 	 *	"amount": 10,
- 	 *	"fee": 1,
- 	 * }, {
- 	 *	"merchantID": 2,
- 	 *	"amount": 20,
- 	 *	"fee": 2,
- 	 * }]
- 	 * ¿ÕÊı×éÎÄ¼şÎª[]
-	 */
-	public static <T extends Message> JSONArray MessagesToArray(ArrayList<T> messages) {
-		if(messages == null)
-			throw new NullPointerException();
-		
-		int index = 0;
-		JSONArray jsArray = new JSONArray();
-		for(Message message : messages) {
-			JSONObject jsObject = message.toJSONObject();
-			try {
-				jsArray.put(index++, jsObject);
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}	
-		}
-		return jsArray;
-	}
-	
-	/** ½«jsObjectµÄ×Ö·û´®Ğ´ÈëpathÏÂµÄÎÄ¼ş£¬ÎÄ¼şÃûÎªÈÕÆÚ*/
-	public static void writeFile(JSONArray jsArray) {
-		if (jsArray == null)
-			throw new NullPointerException();
-		String text = jsArray.toString();
-		String fileName = DateUtil.getCurrDate() + ".json";
-		String filePath = Constant.jspath + fileName;
+        try {
+            jsArray = new JSONArray(source);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsArray;
+    }
+
+    /**
+     * æ ¼å¼ï¼š
+     * [{
+     * 	"merchantID": 1,
+     *	"amount": 10,
+     *	"fee": 1,
+     * }, {
+     *	"merchantID": 2,
+     *	"amount": 20,
+     *	"fee": 2,
+     * }]
+     * ç©ºæ•°ç»„æ–‡ä»¶ä¸º[]
+     */
+    public static <T extends Message> JSONArray MessagesToArray(ArrayList<T> messages) {
+        if(messages == null)
+            throw new NullPointerException();
+
+        int index = 0;
+        JSONArray jsArray = new JSONArray();
+        for(Message message : messages) {
+            JSONObject jsObject = message.toJSONObject();
+            try {
+                jsArray.put(index++, jsObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsArray;
+    }
+
+    /** å°†jsObjectçš„å­—ç¬¦ä¸²å†™å…¥pathä¸‹çš„æ–‡ä»¶ï¼Œæ–‡ä»¶åä¸ºæ—¥æœŸ*/
+    public static void writeFile(JSONArray jsArray, String date) {
+        if (jsArray == null)
+            throw new NullPointerException();
+        String text = jsArray.toString();
+        String fileName = date + ".json";
+        String filePath = Constant.jspath + fileName;
         File testdir=new File(Constant.jspath);
         if(!testdir.exists()){
             testdir.mkdirs();
         }
-		
-		File file = new File(filePath);  
+        File file = new File(filePath);
         PrintStream ps = null;
-		try {
-			ps = new PrintStream(new FileOutputStream(file));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}  
-        ps.print(text);			   // ÍùÎÄ¼şÀïĞ´Èë×Ö·û´®  
-        // ps.append("something"); // ÔÚÒÑÓĞµÄ»ù´¡ÉÏÌí¼Ó×Ö·û´® 
-	}
-	
-	public static void main(String[] args) throws JSONException {
+        try {
+            ps = new PrintStream(new FileOutputStream(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ps.print(text);			   // å¾€æ–‡ä»¶é‡Œå†™å…¥å­—ç¬¦ä¸²
+        //ps.append("something"); // åœ¨å·²æœ‰çš„åŸºç¡€ä¸Šæ·»åŠ å­—ç¬¦ä¸²
+    }
+
+    public static void main(String[] args) throws JSONException {
 //		JSONObject jsObject = new JSONObject();
 //		jsObject.put("merchantID", 1);
 //		jsObject.put("amount", 2);
@@ -127,7 +136,7 @@ public class JSONUtil {
 //		jsArray.put(0, jsObject);
 //		jsArray.put(1, jsObject2);
 //		System.out.println(jsArray.toString());
-		
+
 //		JSONObject jsObject = CMessageToObject(new ClearingMessage(1, 10, 1));
 //		JSONArray jsArray = new JSONArray();
 //		jsArray.put(0, jsObject);
@@ -135,6 +144,6 @@ public class JSONUtil {
 //		jsArray.put(2, jsObject);
 ////		writeFile(jsObject);
 //		System.out.println(jsArray.toString());
-	}
-	
+    }
+
 }
