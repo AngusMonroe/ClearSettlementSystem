@@ -26,7 +26,7 @@ public class CSSystemImpl implements CSSystem{
     */
     @Override
     public String Recharge(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException {
-        logger.info("Recharge from " +requestID+" to "+userID+" for "+amount);
+        logger.info("Recharge:"+requestID+" from " +userID+" for "+amount);
         if(!CheckInputUtil.checkInput(requestID,userID,amount,requestTime)){
             throw new RequestException("充值参数错误");
         }
@@ -37,7 +37,7 @@ public class CSSystemImpl implements CSSystem{
 
     @Override
     public String Withdraw(String requestID, String userID, double amount, boolean method, String requestTime) throws RequestException {
-        logger.info("Withdraw from " +requestID+" to "+userID+" for "+amount);
+        logger.info("Withdraw:"+requestID+" from " +userID+" for "+amount);
         if(!CheckInputUtil.checkInput(requestID,userID,amount,requestTime)) {
             throw new RequestException("提现参数错误");
         }
@@ -48,7 +48,7 @@ public class CSSystemImpl implements CSSystem{
 
     @Override
     public String Trade(String requestID, String userID, String merchantID, double amount, String requestTime) throws RequestException {
-        logger.info("Trade from " +requestID+" to "+userID+" for  "+amount);
+        logger.info("Trade:"+requestID+" from " +userID+" to "+merchantID+" for  "+amount);
         if(!CheckInputUtil.checkInput(requestID,userID,merchantID,amount,requestTime)) {
             throw new RequestException("转账参数错误");
         }

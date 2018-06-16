@@ -30,3 +30,4 @@ ClearSettlementSystem/Provider/log/CSSystemLog.log.2018-06-15
 *.jar
 ClearSettlementSystem/out/artifacts/CSSystem/CSSystem.jar
 *.jar
+ClearSettlementSystem/out/artifacts/CSSystem/CSSystem.jar

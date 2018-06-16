@@ -128,9 +128,14 @@ public class SQLConnection
 	 * 对当前时间前一天进行清分
 	 * @throws SQLException
 	 */
-	public void clearing() throws SQLException {
-		JSONArray jsArray = getClearing(new Date());
-		JSONUtil.writeFile(jsArray);
+	public double clearing() throws SQLException {
+		ArrayList<ClearingMessage> messages = getClearing(new Date());
+		double total = 0;
+		for(ClearingMessage message : messages) {
+			total += message.fee;
+		}
+		JSONUtil.writeFile(JSONUtil.MessagesToArray(messages));
+		return  total;
 	}
 
 	/**
@@ -139,7 +144,7 @@ public class SQLConnection
 	 * @return 获取那一天的清分内容
 	 * @throws SQLException
 	 */
-	private JSONArray getClearing(Date date) {
+	private ArrayList<ClearingMessage> getClearing(Date date) {
 		
 		Date before15day = DateUtil.toDayBefore(new Date(), 15);
 		if (date.before(before15day)) {
@@ -153,34 +158,39 @@ public class SQLConnection
 			Date end = date;
 			String startTime = DateUtil.dateToString(start, 0);
 			String endTime = DateUtil.dateToString(end, 0);
-			String selectSQL = "SELECT merchantID, userID, amount "
+			String selectSQL = "SELECT merchantID, SUM(amount) as amo "
 					+ "FROM trade "
 					+ "WHERE requestTime > '" + startTime + "' AND requestTime < '" + endTime + "' "
 					+ "GROUP BY merchantID";
 			Statement statement1 = connection.createStatement();
 			ResultSet rs = statement1.executeQuery(selectSQL);
 			
-			String notExist = "";
-			ClearingMessage currClearingMessage = new ClearingMessage(notExist); // 不存在seller
+//			String notExist = "";
+//			ClearingMessage currClearingMessage = new ClearingMessage(notExist); // 不存在seller
 			while(rs.next()){
 	            // 通过字段检索
 	            String merchantID  = rs.getString("merchantID");
-	            double amount = rs.getDouble("amount");
-	            
+	            double amount = rs.getDouble("amo");
+	            ClearingMessage message = new ClearingMessage(
+	            		merchantID,
+						amount * (1 - Constant.texRatio),
+						amount * Constant.texRatio
+				);
+	            clearingMessages.add(message);
 	            // 添加信息
-	            if (currClearingMessage.merchantID == notExist && currClearingMessage.merchantID != merchantID) {
-	            	currClearingMessage = new ClearingMessage(merchantID);
-	            } else if(currClearingMessage.merchantID != notExist && currClearingMessage.merchantID != merchantID) {
-	            	clearingMessages.add(currClearingMessage);
-	            	currClearingMessage = new ClearingMessage(merchantID);
-	            }
-	            currClearingMessage.amount += amount * (1 - Constant.texRatio);
-	            currClearingMessage.fee += amount * Constant.texRatio;
+//	            if (currClearingMessage.merchantID == notExist && currClearingMessage.merchantID != merchantID) {
+//	            	currClearingMessage = new ClearingMessage(merchantID);
+//	            } else if(currClearingMessage.merchantID != notExist && currClearingMessage.merchantID != merchantID) {
+//	            	clearingMessages.add(currClearingMessage);
+//	            	currClearingMessage = new ClearingMessage(merchantID);
+//	            }
+//	            currClearingMessage.amount += amount * (1 - Constant.texRatio);
+//	            currClearingMessage.fee += amount * Constant.texRatio;
 	        }
-			if (currClearingMessage.merchantID != notExist) {
-				clearingMessages.add(currClearingMessage);
-			}
-
+//			if (currClearingMessage.merchantID != notExist) {
+//				clearingMessages.add(currClearingMessage);
+//			}
+			logger.info(clearingMessages.size());
 			double sumearning=0;
 			// 进行清分转账
 			for(ClearingMessage message : clearingMessages) {
@@ -192,10 +202,11 @@ public class SQLConnection
 //				double	amount	转账额	无
 //				boolean	trade_type	交易类型	false转账，true消费
 				sumearning+=fee;
+				logger.info(fee+" "+amount);
 				//待清算账户2转账给平台账户1
-				Launcher.accountService.transferConsume(2, 1, fee, false);
+				//Launcher.accountService.transferConsume(2, 1, fee, false);
 				//待清算账户2转账给商户
-				Launcher.accountService.transferConsume(2, Integer.valueOf(merchantID), amount, false);
+				//Launcher.accountService.transferConsume(2, Integer.valueOf(merchantID), amount, false);
 			}
 
 			logger.info("Today's earning is "+sumearning+" yuan");
@@ -209,8 +220,8 @@ public class SQLConnection
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		JSONArray ans = JSONUtil.MessagesToArray(clearingMessages);
-		return ans;
+
+		return clearingMessages;
 	}
 
 	public JSONArray findQueryRecord(int kind) {
