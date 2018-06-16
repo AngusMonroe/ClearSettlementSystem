@@ -295,7 +295,7 @@ public class SQLConnection
 				}
 				
 			} else {
-				throw new TimeOutOfRangeException();
+				throw new OperatorIdOutOfRangeException();
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

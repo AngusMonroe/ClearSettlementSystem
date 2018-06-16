@@ -26,3 +26,7 @@ hs_err_pid*
 运营平台v1.0.21_2017321/
 .idea
 ~$*
+ClearSettlementSystem/Provider/log/CSSystemLog.log.2018-06-15
+*.jar
+ClearSettlementSystem/out/artifacts/CSSystem/CSSystem.jar
+*.jar
