@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Logger;
 
 
 import buaa.jj.accountservice.api.AccountService;
@@ -17,9 +18,12 @@ import org.json.JSONArray;
 import com.altale.service.CSException.*;
 import com.altale.util.*;
 import com.altale.service.request.*;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 /**
  * 数据库连接类
  */
@@ -27,7 +31,7 @@ public class SQLConnection
 {
 	private Connection connection;
 	private PreparedStatement pstmt;
-	
+	private static Log logger = LogFactory.getLog(SQLConnection.class);
 	/**
 	 * 数据库连接类构造函数
 	 * @param url URL
@@ -176,7 +180,8 @@ public class SQLConnection
 			if (currClearingMessage.merchantID != notExist) {
 				clearingMessages.add(currClearingMessage);
 			}
-			
+
+			double sumearning=0;
 			// 进行清分转账
 			for(ClearingMessage message : clearingMessages) {
 				String merchantID = message.merchantID; // 转给的商户
@@ -186,12 +191,14 @@ public class SQLConnection
 //				int	get_user_id	收款方用户ID	无
 //				double	amount	转账额	无
 //				boolean	trade_type	交易类型	false转账，true消费
-
+				sumearning+=fee;
 				//待清算账户2转账给平台账户1
 				Launcher.accountService.transferConsume(2, 1, fee, false);
 				//待清算账户2转账给商户
 				Launcher.accountService.transferConsume(2, Integer.valueOf(merchantID), amount, false);
 			}
+
+			logger.info("Today's earning is "+sumearning+" yuan");
 	
 			// 更新数据库清分状态
 			String updateSQL = "UPDATE trade "
@@ -213,8 +220,8 @@ public class SQLConnection
 
 	/**
 	 * 
-	 * @param startTime
-	 * @param endTime
+	 * @param start
+	 * @param end
 	 * @param kind: 0-充值, 1-提现, 2-消费
 	 * @return
 	 * @throws SQLException 
@@ -225,9 +232,6 @@ public class SQLConnection
 		if(!start.before(end) 
 				|| !end.after(before15day) 
 				|| end.after(new Date())) {
-			System.out.println(!start.before(end)
-					+" "+ !end.after(before15day)
-					+" "+ !end.before(new Date()));
 			throw new TimeOutOfRangeException();
 		}
 		

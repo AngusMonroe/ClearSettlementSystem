@@ -7,7 +7,7 @@ import java.io.File;
 import java.util.Date;
 
 public class CreateTestFileUtil {
-    public static void main(String args[]) {
+    public static void create() {
         Date now = new Date();
         Date lim = DateUtil.toDayBefore(now, 15);
         File dir=new File(Constant.jspath);
