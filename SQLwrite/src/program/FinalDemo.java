@@ -81,6 +81,7 @@ public class FinalDemo
 			System.out.println("---- 6.Query Record ----");
 			JSONArray jsArray2 = sqlConnection.findQueryRecord(2);
 			System.out.println(jsArray2.toString());
+			System.out.println("\n\n");
 		}
 		catch (Exception e)
 		{
