@@ -122,7 +122,7 @@ public class Request
 			"Merchant ID: " + merchantID + "\n" +
 			"Amount: " + amount + "\n" +
 			"Operate Status: " + operateStatus + "\n" +
-			"Method: " + method + "\n" +
+			"Method: " + (method == true ? "Alipay" : "WeChat") + "\n" +
 			"Request Time: " + requestTime + "\n"
 		);
 	}

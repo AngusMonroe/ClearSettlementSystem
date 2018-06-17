@@ -29,7 +29,7 @@ public final class RechargeRequest extends Request
 			"Request ID: " + requestID + "\n" + 
 			"User ID: " + userID + "\n" +
 			"Amount: " + amount + "\n" +
-			"Method: " + method + "\n" +
+			"Method: " + (method == true ? "Alipay" : "WeChat") + "\n" +
 			"Request Time: " + requestTime + "\n"
 		);
 	}
