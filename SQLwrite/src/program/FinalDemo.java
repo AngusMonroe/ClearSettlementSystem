@@ -1,5 +1,7 @@
 package program;
 
+import java.util.Scanner;
+
 import org.json.JSONArray;
 
 import request.RechargeRequest;
@@ -16,6 +18,8 @@ public class FinalDemo
 	{
 		try
 		{
+			Scanner input = new Scanner(System.in);
+			
 			String server = "localhost";
 			String port = "3306";
 			String database = "css";
@@ -38,6 +42,7 @@ public class FinalDemo
 			sqlConnection.sendRequest(rechargeRequest);
 			rechargeRequest.display();
 			System.out.println("\n\n");
+			input.nextLine();
 			
 			/* 2 withdraw */
 			System.out.println("---- 2.Withdraw ----");
@@ -45,6 +50,7 @@ public class FinalDemo
 			sqlConnection.sendRequest(withdrawRequest);
 			withdrawRequest.display();
 			System.out.println("\n\n");
+			input.nextLine();
 			
 			/* 3 trade */
 			System.out.println("---- 3.Trade ----");
@@ -52,6 +58,7 @@ public class FinalDemo
 			sqlConnection.sendRequest(tradeRequest);
 			tradeRequest.display();
 			System.out.println("\n\n");
+			input.nextLine();
 			
 			/* 4 clearing */
 			System.out.println("---- 4.Clearing ----");
@@ -61,12 +68,14 @@ public class FinalDemo
 			sqlConnection.getClearing(DateUtil.strToDate("2018-06-16"));
 			sqlConnection.getClearing(DateUtil.strToDate("2018-06-17"));
 			System.out.println("\n\n");
+			input.nextLine();
 			
 			/* 5 download file */
 			System.out.println("---- 5.Download File ----");
 			JSONArray jsonArray = JSONUtil.getClearingFromFile(DateUtil.strToDate("2018-06-14"));
 			System.out.println(jsonArray.toString());
 			System.out.println("\n\n");
+			input.nextLine();
 			
 			/* 6 query record */
 			System.out.println("---- 6.Query Record ----");
